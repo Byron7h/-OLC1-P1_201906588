@@ -27,10 +27,12 @@ id = {letra}+
                     return new Symbol(Simbolos.id, yycolumn, yyline, yytext());
                 }
 
-[\t\r\n\f]      { /* Espacios en blanco, tabulaciones, y retorno de carro se ignoran */ }
+[ \t\r\n\f]      { /* Espacios en blanco, tabulaciones, y retorno de carro se ignoran (el espacio antes del \t, se deja) */ }
             
 
-. 
-                { System.out.println("Error Lexico : "+yytext()+
+.                { System.out.println("Error Lexico : "+yytext()+
    "Linea"+yyline+" Columna "+yycolumn);
-                }
+              
+  }
+
+

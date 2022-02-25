@@ -36,7 +36,7 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
   private static final char [] ZZ_CMAP = {
      0,  0,  0,  0,  0,  0,  0,  0,  0,  3,  3,  4,  3,  3,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  0,  0, 
+     3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
      1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  0,  0,  0,  0, 
@@ -618,7 +618,7 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 7: break;
           case 4: 
-            { /* Espacios en blanco, tabulaciones, y retorno de carro se ignoran */
+            { /* Espacios en blanco, tabulaciones, y retorno de carro se ignoran (el espacio antes del \t, se deja) */
             } 
             // fall through
           case 8: break;
