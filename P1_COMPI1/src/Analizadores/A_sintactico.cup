@@ -1,16 +1,16 @@
-package Analizadores;
+package analizadores;
 import java_cup.runtime.Symbol;
 
 terminal id;
 terminal coma;
 
-no termina INICIO, E; 
+non terminal INICIO,E;
 
 start with INICIO;
 
 INICIO::= E {:System.out.println("Fin de analisis de entrada");:}
 ;
 
-E::= E coma id    //Va a reconocer coma id coma id 
+E::= E coma id
 | id
 ;
