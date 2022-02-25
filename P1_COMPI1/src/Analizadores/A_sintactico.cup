@@ -1,29 +1,16 @@
 package Analizadores;
 import java_cup.runtime.Symbol;
 
-//Aca colocamos las exp reg tal como las definimos en al .jflex anteponiendoles "terminal"
-// Son todos a los que les pusimos return 
-
 terminal id;
 terminal coma;
 
-//ahora vamos con los no terminales
-
-no termina INICIO, E; // le colocamos el inicio y otro no teminal llamado E para nuestra producción
-
-// con cuál empiezo? le decimos que con el INICIO
+no termina INICIO, E; 
 
 start with INICIO;
 
-//Ahora vamos con nuestras producciones
-
-//INICIO produce E
 INICIO::= E {:System.out.println("Fin de analisis de entrada");:}
 ;
 
 E::= E coma id    //Va a reconocer coma id coma id 
 | id
 ;
-
-
-//ahora lo que queda es agregar las librerias al package donde está este archivo
