@@ -1,4 +1,4 @@
-package Analizadores;
+package analizadores;
 import java_cup.runtime.*; 
 
 %% 
