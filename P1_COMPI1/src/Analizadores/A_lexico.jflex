@@ -1,7 +1,13 @@
 package analizadores;
 import java_cup.runtime.*; 
+import java.util.LinkedList;
 
 %% 
+%{
+    public static LinkedList<TError> errores = new LinkedList<TError>(); 
+%}
+
+
 %public 
 %class Analizador_Lexico  
 %cupsym Simbolos 
@@ -30,9 +36,10 @@ id = {letra}+
 [ \t\r\n\f]      { /* Espacios en blanco, tabulaciones, y retorno de carro se ignoran (el espacio antes del \t, se deja) */ }
             
 
-.                { System.out.println("Error Lexico : "+yytext()+
-   "Linea"+yyline+" Columna "+yycolumn);
-              
+.                {  
+                    /*tipo, lexema, descripcion, fila, columna; lo agtegamos a la lista de errores*/
+                    TError tmp= new TError("Lexico", yytext(),"Caracter no reconocido", yyline, yycolumn );
+                    errores.add(tmp);           
   }
 
 
