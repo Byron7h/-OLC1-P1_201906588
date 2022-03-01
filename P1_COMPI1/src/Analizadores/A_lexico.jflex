@@ -4,7 +4,9 @@ import java_cup.runtime.*;
 import java.util.LinkedList;
 
 %% 
-
+%{
+    public static LinkedList<TError> errores = new LinkedList<TError>(); 
+%}
 
 
 %public 
@@ -81,10 +83,6 @@ id = {letra}[letra|_|numero]*
                     return new Symbol(Simbolos.duda, yycolumn, yyline, yytext());
                     }
 
-<YYINITIAL> "\""     {
-                    System.out.println("Reconocio token:<comilla> lexema:"+yytext());
-                    return new Symbol(Simbolos.comilla, yycolumn, yyline, yytext());
-                    }
 
 <YYINITIAL> {palabra_reservada}    {
                     System.out.println("Reconocio token:<palabra_reservada> lexema:"+yytext());
@@ -117,18 +115,18 @@ id = {letra}[letra|_|numero]*
                     }
 
 <YYINITIAL> {conjunto_1}    {
-                    System.out.println("Reconocio token:<conjunto> lexema:"+yytext());
+                    System.out.println("Reconocio token:<conjunto1> lexema:"+yytext());
                     return new Symbol(Simbolos.conjunto, yycolumn, yyline, yytext());
                     }
 
 
 <YYINITIAL> {conjunto_2}    {
-                    System.out.println("Reconocio token:<conjunto> lexema:"+yytext());
+                    System.out.println("Reconocio token:<conjunto2> lexema:"+yytext());
                     return new Symbol(Simbolos.conjunto, yycolumn, yyline, yytext());
                     }
 
 <YYINITIAL> {conjunto_3}    {
-                    System.out.println("Reconocio token:<conjunto> lexema:"+yytext());
+                    System.out.println("Reconocio token:<conjunto3> lexema:"+yytext());
                     return new Symbol(Simbolos.conjunto, yycolumn, yyline, yytext());
                     }
 
@@ -157,8 +155,8 @@ id = {letra}[letra|_|numero]*
 .                {  
                      System.out.println("Reconocio token:<error> lexema:"+yytext());
                     /*tipo, lexema, descripcion, fila, columna; lo agtegamos a la lista de errores*/
-                    //TError tmp= new TError("Lexico", yytext(),"Caracter no reconocido", yyline, yycolumn );
-                    //errores.add(tmp);           
+                    TError tmp= new TError("Lexico", yytext(),"Caracter no reconocido", yyline, yycolumn );
+                    errores.add(tmp);           
 }
 
 

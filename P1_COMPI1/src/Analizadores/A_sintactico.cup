@@ -59,8 +59,8 @@ terminal comentario_unilinea;
 terminal comentario_multilinea;
 terminal cadena;
 terminal asignacion;
-terminal conjunto;
 terminal id;
+terminal conjunto;
 terminal coma;
 terminal punto_y_coma;
 terminal llave_a;
@@ -79,12 +79,14 @@ precedence left id, cadena;
 start with INICIO;
 
 INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entrada");:}
-        |palabra_reservada dos_puntos id asignacion conjunto punto_y_coma 
-        |id asignacion E punto_y_coma
-        |delimitadores
+        |palabra_reservada dos_puntos id asignacion conjunto punto_y_coma INICIO
+        |id asignacion E punto_y_coma INICIO
+        |delimitadores INICIO
+        |id dos_puntos cadena punto_y_coma INICIO
+        |comentario_unilinea INICIO
+        |comentario_multilinea INICIO
         |id dos_puntos cadena punto_y_coma
-        |comentario_unilinea
-        |comentario_multilinea      
+     
 ;
 
 E::= punto E E

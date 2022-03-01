@@ -10,7 +10,7 @@ public class Simbolos {
   /* terminals */
   public static final int comentario_multilinea = 5;
   public static final int cadena = 6;
-  public static final int conjunto = 8;
+  public static final int conjunto = 9;
   public static final int coma = 10;
   public static final int llave_c = 13;
   public static final int llave_a = 12;
@@ -21,7 +21,7 @@ public class Simbolos {
   public static final int punto = 14;
   public static final int EOF = 0;
   public static final int duda = 19;
-  public static final int id = 9;
+  public static final int id = 8;
   public static final int error = 1;
   public static final int delimitadores = 3;
   public static final int o_logico = 17;
@@ -37,8 +37,8 @@ public class Simbolos {
   "comentario_multilinea",
   "cadena",
   "asignacion",
-  "conjunto",
   "id",
+  "conjunto",
   "coma",
   "punto_y_coma",
   "llave_a",
