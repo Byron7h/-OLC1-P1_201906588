@@ -32,10 +32,10 @@ comentario_unilinea = ["//"]+[^\n]*[\n]
 comentario_multilinea = "<!"[^"!>"]*"!>"
 cadena = [\"][^\n\"]*[\"] | [\'][^\n\']*[\']
 asignacion = "->"
-conjunto_1 = {letra}"~"{letra}|{numero}"~"{numero}
-conjunto_2 = {numero}[","[numero]]*|{letra}[","[letra]]*
+conjunto_1 = ({letra}"~"{letra}|{numero}"~"{numero})
+conjunto_2 = ({numero}(","{numero})*|{letra}(","{letra})*)
 conjunto_3 = [^\n\"]"~"[^\n\"]
-id = {letra}[letra|_|numero]*
+id = {letra}({letra}|_|{numero})*
 
 %%
 <YYINITIAL> ","     {

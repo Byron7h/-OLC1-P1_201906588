@@ -91,10 +91,10 @@ INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entra
 
 E::= punto E E
     |o_logico E E
-    |asterisco E E
-    |mas E E
-    |duda E E
-    |id
+    |asterisco E
+    |mas E
+    |duda E
+    |llave_a id llave_c
     |cadena
 
 ;
