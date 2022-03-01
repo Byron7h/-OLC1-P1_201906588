@@ -120,7 +120,8 @@ public class Analizador_sintactico extends java_cup.runtime.lr_parser {
     }
 
 
-    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores, se reporta y termina el análisis
+    // en caso de que se pueda recurer este no saldrá
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
     {        
         String lexema = s.value.toString();
