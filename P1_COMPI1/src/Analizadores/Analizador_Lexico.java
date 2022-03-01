@@ -612,13 +612,13 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
           case 5: break;
           case 2: 
             { System.out.println("Reconocio token:<id> lexema:"+yytext());
-                    //return new Symbol(Simbolos.id, yycolumn, yyline, yytext());
+                    return new Symbol(Simbolos.id, yycolumn, yyline, yytext());
             } 
             // fall through
           case 6: break;
           case 3: 
             { System.out.println("Reconocio token:<coma> lexema:"+yytext());
-                    //return new Symbol(Simbolos.coma, yycolumn, yyline, yytext());
+                    return new Symbol(Simbolos.coma, yycolumn, yyline, yytext());
             } 
             // fall through
           case 7: break;
