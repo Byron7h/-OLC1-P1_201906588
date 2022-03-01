@@ -53,21 +53,46 @@ parser code
     }
 :}
 
-
-
-
-
-
+terminal palabra_reservada;
+terminal delimitadores;
+terminal comentario_unilinea;
+terminal comentario_multilinea;
+terminal cadena;
+terminal asignacion;
+terminal conjunto;
 terminal id;
 terminal coma;
+terminal punto_y_coma;
+terminal llave_a;
+terminal llave_c;
+terminal punto;
+terminal dos_puntos;
+terminal asterisco;
+terminal o_logico;
+terminal mas;
+terminal duda;
 
 non terminal INICIO,E;
 
+precedence left id, cadena;
+
 start with INICIO;
 
-INICIO::= E {:System.out.println("Fin de analisis de entrada");:}
+INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entrada");:}
+        |palabra_reservada dos_puntos id asignacion conjunto punto_y_coma 
+        |id asignacion E punto_y_coma
+        |delimitadores
+        |id dos_puntos cadena punto_y_coma
+        |comentario_unilinea
+        |comentario_multilinea      
 ;
 
-E::= E coma id
-| id
+E::= punto E E
+    |o_logico E E
+    |asterisco E E
+    |mas E E
+    |duda E E
+    |id
+    |cadena
+
 ;

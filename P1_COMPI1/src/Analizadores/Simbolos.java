@@ -8,15 +8,47 @@ package analizadores;
 /** CUP generated class containing symbol constants. */
 public class Simbolos {
   /* terminals */
-  public static final int error = 1;
-  public static final int coma = 3;
+  public static final int comentario_multilinea = 5;
+  public static final int cadena = 6;
+  public static final int conjunto = 8;
+  public static final int coma = 10;
+  public static final int llave_c = 13;
+  public static final int llave_a = 12;
+  public static final int comentario_unilinea = 4;
+  public static final int punto_y_coma = 11;
+  public static final int asignacion = 7;
+  public static final int dos_puntos = 15;
+  public static final int punto = 14;
   public static final int EOF = 0;
-  public static final int id = 2;
+  public static final int duda = 19;
+  public static final int id = 9;
+  public static final int error = 1;
+  public static final int delimitadores = 3;
+  public static final int o_logico = 17;
+  public static final int asterisco = 16;
+  public static final int mas = 18;
+  public static final int palabra_reservada = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "palabra_reservada",
+  "delimitadores",
+  "comentario_unilinea",
+  "comentario_multilinea",
+  "cadena",
+  "asignacion",
+  "conjunto",
   "id",
-  "coma"
+  "coma",
+  "punto_y_coma",
+  "llave_a",
+  "llave_c",
+  "punto",
+  "dos_puntos",
+  "asterisco",
+  "o_logico",
+  "mas",
+  "duda"
   };
 }
 

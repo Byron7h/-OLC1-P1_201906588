@@ -12,7 +12,7 @@ public class P1_COMPI1 {
      
         try {
             Analizador_Lexico lexico = new Analizador_Lexico(
-            new BufferedReader(new FileReader("./Entrada.txt"))
+            new BufferedReader(new FileReader("./Prueba.exp"))
             );
             Analizador_sintactico sintactico = new Analizador_sintactico(lexico);
             sintactico.parse(); //funcion que nos lee
