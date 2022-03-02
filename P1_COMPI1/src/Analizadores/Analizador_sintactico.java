@@ -154,6 +154,9 @@ public class Analizador_sintactico extends java_cup.runtime.lr_parser {
 
 
 
+    // • Acá vamos a crear una linked list para guardar todos los conjuntos que encontremos
+    public static LinkedList<conjunto> conjuntos = new LinkedList<conjunto>(); 
+
     //creamos un nuevo objeto linked list
     public static LinkedList<TError> errores = new LinkedList<TError>(); 
 
@@ -249,7 +252,16 @@ class CUP$Analizador_sintactico$actions {
           case 2: // INICIO ::= palabra_reservada dos_puntos id asignacion conjunto punto_y_coma INICIO 
             {
               Object RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)).right;
+		Object a = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)).right;
+		Object b = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)).value;
+		
+                                        conjunto tmp = new conjunto("cadena", a.toString(), b.toString());
+                                        conjuntos.add(tmp);
+                                        
               CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
             }
           return CUP$Analizador_sintactico$result;

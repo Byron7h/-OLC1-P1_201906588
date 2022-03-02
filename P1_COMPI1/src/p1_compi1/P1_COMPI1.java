@@ -3,6 +3,7 @@ package p1_compi1;
 import analizadores.Analizador_Lexico;
 import analizadores.Analizador_sintactico;
 import analizadores.TError;
+import analizadores.conjunto;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -16,6 +17,13 @@ public class P1_COMPI1 {
             );
             Analizador_sintactico sintactico = new Analizador_sintactico(lexico);
             sintactico.parse(); //funcion que nos lee
+            
+            System.out.println("\n\n***Conjuntos encontrados ");
+            for (conjunto con : sintactico.conjuntos) {
+                System.out.println(con.show());
+            }
+            
+            
             
             System.out.println("\n\n***Reporte de errores encontrados ");
             for (TError errore : Analizador_Lexico.errores) {

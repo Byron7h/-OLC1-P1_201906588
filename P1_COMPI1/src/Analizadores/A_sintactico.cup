@@ -9,6 +9,9 @@ parser code
 
 {:
 
+    // • Acá vamos a crear una linked list para guardar todos los conjuntos que encontremos
+    public static LinkedList<conjunto> conjuntos = new LinkedList<conjunto>(); 
+
     //creamos un nuevo objeto linked list
     public static LinkedList<TError> errores = new LinkedList<TError>(); 
 
@@ -79,7 +82,14 @@ precedence left id, cadena;
 start with INICIO;
 
 INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entrada");:}
-        |palabra_reservada dos_puntos id asignacion conjunto punto_y_coma INICIO
+        
+
+        |palabra_reservada dos_puntos id:a asignacion conjunto:b punto_y_coma INICIO {:
+                                        conjunto nuevo = new conjunto("cadena", a.toString(), b.toString());
+                                        conjuntos.add(nuevo);
+                                        :}
+
+
         |id asignacion E punto_y_coma INICIO
         |delimitadores INICIO
         |id dos_puntos cadena punto_y_coma INICIO
