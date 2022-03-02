@@ -85,8 +85,11 @@ INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entra
         |id dos_puntos cadena punto_y_coma INICIO
         |comentario_unilinea INICIO
         |comentario_multilinea INICIO
+
         |id dos_puntos cadena punto_y_coma
-     
+        |comentario_unilinea
+        |comentario_multilinea
+        |delimitadores
 ;
 
 E::= punto E E
