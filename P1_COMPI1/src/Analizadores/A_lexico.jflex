@@ -1,4 +1,3 @@
-
 package analizadores;
 import java_cup.runtime.*; 
 import java.util.LinkedList;
@@ -30,12 +29,13 @@ palabra_reservada = "CONJ"
 delimitadores = ["%%"]+
 comentario_unilinea = ["//"]+[^\n]*[\n]
 comentario_multilinea = "<!"[^"!>"]*"!>"
-cadena = [\"][^\n\"]*[\"] | [\'][^\n\']*[\']
+cadena = ([\"][^\n\"]*[\"] | [\'][^\n\']*[\'])
 asignacion = "->"
 conjunto_1 = ({letra}"~"{letra}|{numero}"~"{numero})
 conjunto_2 = ({numero}(","{numero})*|{letra}(","{letra})*)
 conjunto_3 = [^\n\"]"~"[^\n\"]
 id = {letra}({letra}|_|{numero})*
+exp_reg = ("."|"|"|"*"|"+"|"?"|"{"{id}"}"|{cadena})+
 
 %%
 <YYINITIAL> ","     {
@@ -136,6 +136,10 @@ id = {letra}({letra}|_|{numero})*
                     return new Symbol(Simbolos.id, yycolumn, yyline, yytext());
                     }
 
+<YYINITIAL> {exp_reg}    {
+                    System.out.println("Reconocio token:<exp_reg> lexema:"+yytext());
+                    return new Symbol(Simbolos.exp_reg, yycolumn, yyline, yytext());
+                    }
 
 
 
@@ -158,5 +162,3 @@ id = {letra}({letra}|_|{numero})*
                     TError tmp= new TError("Lexico", yytext(),"Caracter no reconocido", yyline, yycolumn );
                     errores.add(tmp);           
 }
-
-

@@ -11,6 +11,8 @@ parser code
 
     // • Acá vamos a crear una linked list para guardar todos los conjuntos que encontremos
     public static LinkedList<conjunto> conjuntos = new LinkedList<conjunto>(); 
+    public static LinkedList<RegExp> expresiones = new LinkedList<RegExp>(); 
+    String exp = "";
 
     //creamos un nuevo objeto linked list
     public static LinkedList<TError> errores = new LinkedList<TError>(); 
@@ -74,8 +76,9 @@ terminal asterisco;
 terminal o_logico;
 terminal mas;
 terminal duda;
+terminal exp_reg;
 
-non terminal INICIO,E;
+non terminal INICIO;
 
 precedence left id, cadena;
 
@@ -90,7 +93,15 @@ INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entra
                                         :}
 
 
-        |id asignacion E punto_y_coma INICIO
+        |id:c asignacion exp_reg:d punto_y_coma INICIO
+                                        {:
+                                        //System.out.println(exp);
+                                        System.out.println(d.toString());
+                                        
+
+                                        //RegExp nuevo = new RegExp(c.value().toString(), d.toString());
+                                        //expresiones.add(nuevo);
+                                        :}
         |delimitadores INICIO
         |id dos_puntos cadena punto_y_coma INICIO
         |comentario_unilinea INICIO
@@ -102,12 +113,3 @@ INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entra
         |delimitadores
 ;
 
-E::= punto E E
-    |o_logico E E
-    |asterisco E
-    |mas E
-    |duda E
-    |llave_a id llave_c
-    |cadena
-
-;
