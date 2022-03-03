@@ -14,6 +14,11 @@ public class Token {
         this.columna = columna;
     }
 
+    public Token(String tipo, String lexema) {
+        this.tipo = tipo;
+        this.lexema = lexema;
+    }
+    
     public String show() { //retorna una cadena de informacion 
                             // Acá ya podemos colocarle código html, para los reportes
         String data = "";

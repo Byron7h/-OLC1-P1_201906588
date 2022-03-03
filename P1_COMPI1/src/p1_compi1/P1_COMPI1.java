@@ -16,6 +16,7 @@ public class P1_COMPI1 {
 
     public static void main(String[] args) {
      
+        /*
         try {
             Analizador_Lexico lexico = new Analizador_Lexico(
             new BufferedReader(new FileReader("./Prueba.exp"))
@@ -55,7 +56,93 @@ public class P1_COMPI1 {
             }
             
         } catch (Exception e) {
+        }*/
+        
+        //.{digito}."."+{digito}
+        //. + {digito} . "." + {digito}
+        
+        LinkedList<Token> expresion = new LinkedList<>();
+        Token nuevo = new Token("punto",".",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("mas","+",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("llave_a","{",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("id","digito",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("llave_c","}",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("punto",".",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("cadena","'.'",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("mas","+",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("llave_a","{",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("id","digito",1,1);
+        expresion.add(nuevo);
+        
+        nuevo = new Token("llave_c","}",1,1);
+        expresion.add(nuevo);
+   
+
+        arbol(expresion);
+        
+        
+        
+        
+    }
+    public static void arbol(LinkedList<Token> expre){ 
+        // • Paso 1 Agregando la concatenación al estado de aceptación 
+        
+        Token nuevo = new Token("punto",".");
+        expre.addFirst(nuevo);
+        
+        nuevo = new Token("aceptacion","#");
+        expre.addLast(nuevo);
+        
+        LinkedList<Token> aux = new LinkedList<>();
+
+        imprimir_lista(expre);
+        
+        // • Paso 2 Quitando los parentesis inneccesarios
+        for(Token tok:expre){
+            if ("llave_a".equals(tok.tipo) || "llave_c".equals(tok.tipo) ){  
+            }else{
+                aux.add(tok);
+            }
         }
+        
+        expre = aux;
+        imprimir_lista(expre);
+        
+        
+        //Paso 3 reducciones, y formación del arbol
+        
+
+        
+
+            
+    }
+    
+    public static void imprimir_lista(LinkedList<Token> expre){
+        System.out.println("Tamaño: "+ expre.size());
+        
+        for(Token tok:expre){
+            System.out.print(tok.lexema);
+        }
+        System.out.println("");
+        
     }
     
 }
