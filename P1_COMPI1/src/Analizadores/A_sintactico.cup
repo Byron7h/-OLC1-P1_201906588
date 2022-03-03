@@ -68,7 +68,6 @@ terminal cadena;
 terminal asignacion;
 terminal id;
 terminal conjunto;
-terminal coma;
 terminal punto_y_coma;
 terminal llave_a;
 terminal llave_c;

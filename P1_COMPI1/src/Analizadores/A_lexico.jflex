@@ -39,10 +39,7 @@ id = {letra}({letra}|_|{numero})*
 
 
 %%
-<YYINITIAL> ","     {
-                    System.out.println("Reconocio token:<coma> lexema:"+yytext());
-                    return new Symbol(Simbolos.coma, yycolumn, yyline, yytext());
-                    }
+
 <YYINITIAL> ";"     {
                     System.out.println("Reconocio token:<punto_y_coma> lexema:"+yytext());
                     Token tmp= new Token("punto_y_coma", yytext().toString(), yyline, yycolumn );
