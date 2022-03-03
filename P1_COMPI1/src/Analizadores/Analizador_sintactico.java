@@ -32,10 +32,13 @@ public class Analizador_sintactico extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\014\000\002\002\004\000\002\002\005\000\002\002" +
+    "\000\023\000\002\002\004\000\002\002\005\000\002\002" +
     "\011\000\002\002\007\000\002\002\004\000\002\002\007" +
     "\000\002\002\004\000\002\002\004\000\002\002\006\000" +
-    "\002\002\003\000\002\002\003\000\002\002\003" });
+    "\002\002\003\000\002\002\003\000\002\002\003\000\002" +
+    "\003\005\000\002\003\005\000\002\003\004\000\002\003" +
+    "\004\000\002\003\004\000\002\003\005\000\002\003\003" +
+    "" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -43,28 +46,51 @@ public class Analizador_sintactico extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\034\000\016\004\010\005\012\006\005\007\007\012" +
+    "\000\054\000\016\004\010\005\012\006\005\007\007\012" +
     "\011\016\004\001\002\000\016\004\010\005\012\006\005" +
     "\007\007\012\011\016\004\001\002\000\022\002\ufff8\004" +
     "\010\005\012\006\005\007\007\012\011\016\004\017\ufff8" +
-    "\001\002\000\004\002\033\001\002\000\022\002\ufff7\004" +
+    "\001\002\000\004\002\053\001\002\000\022\002\ufff7\004" +
     "\010\005\012\006\005\007\007\012\011\016\004\017\ufff7" +
-    "\001\002\000\004\021\024\001\002\000\006\011\015\021" +
+    "\001\002\000\004\021\044\001\002\000\006\011\015\021" +
     "\014\001\002\000\022\002\ufff6\004\010\005\012\006\005" +
     "\007\007\012\011\016\004\017\ufff6\001\002\000\006\002" +
-    "\ufffd\017\ufffd\001\002\000\004\010\021\001\002\000\004" +
-    "\026\016\001\002\000\004\015\017\001\002\000\016\004" +
-    "\010\005\012\006\005\007\007\012\011\016\004\001\002" +
-    "\000\006\002\ufffe\017\ufffe\001\002\000\004\015\022\001" +
-    "\002\000\022\002\ufff9\004\010\005\012\006\005\007\007" +
-    "\012\011\016\004\017\ufff9\001\002\000\006\002\ufffc\017" +
-    "\ufffc\001\002\000\004\012\025\001\002\000\004\011\026" +
-    "\001\002\000\004\013\027\001\002\000\004\015\030\001" +
-    "\002\000\016\004\010\005\012\006\005\007\007\012\011" +
-    "\016\004\001\002\000\006\002\uffff\017\uffff\001\002\000" +
-    "\006\002\ufffa\017\ufffa\001\002\000\004\002\001\001\002" +
-    "\000\006\002\ufffb\017\ufffb\001\002\000\004\017\036\001" +
-    "\002\000\006\002\000\017\000\001\002" });
+    "\ufffd\017\ufffd\001\002\000\004\010\041\001\002\000\020" +
+    "\010\020\016\024\020\017\022\021\023\016\024\022\025" +
+    "\023\001\002\000\020\010\020\016\024\020\017\022\021" +
+    "\023\016\024\022\025\023\001\002\000\020\010\020\016" +
+    "\024\020\017\022\021\023\016\024\022\025\023\001\002" +
+    "\000\022\010\uffef\015\uffef\016\uffef\020\uffef\022\uffef\023" +
+    "\uffef\024\uffef\025\uffef\001\002\000\020\010\020\016\024" +
+    "\020\017\022\021\023\016\024\022\025\023\001\002\000" +
+    "\020\010\020\016\024\020\017\022\021\023\016\024\022" +
+    "\025\023\001\002\000\020\010\020\016\024\020\017\022" +
+    "\021\023\016\024\022\025\023\001\002\000\004\012\030" +
+    "\001\002\000\004\015\026\001\002\000\016\004\010\005" +
+    "\012\006\005\007\007\012\011\016\004\001\002\000\006" +
+    "\002\ufffe\017\ufffe\001\002\000\004\017\031\001\002\000" +
+    "\022\010\ufff0\015\ufff0\016\ufff0\020\ufff0\022\ufff0\023\ufff0" +
+    "\024\ufff0\025\ufff0\001\002\000\022\010\ufff1\015\ufff1\016" +
+    "\ufff1\020\ufff1\022\ufff1\023\ufff1\024\ufff1\025\ufff1\001\002" +
+    "\000\022\010\ufff2\015\ufff2\016\ufff2\020\ufff2\022\ufff2\023" +
+    "\ufff2\024\ufff2\025\ufff2\001\002\000\022\010\ufff3\015\ufff3" +
+    "\016\ufff3\020\ufff3\022\ufff3\023\ufff3\024\ufff3\025\ufff3\001" +
+    "\002\000\020\010\020\016\024\020\017\022\021\023\016" +
+    "\024\022\025\023\001\002\000\022\010\ufff5\015\ufff5\016" +
+    "\ufff5\020\ufff5\022\ufff5\023\ufff5\024\ufff5\025\ufff5\001\002" +
+    "\000\020\010\020\016\024\020\017\022\021\023\016\024" +
+    "\022\025\023\001\002\000\022\010\ufff4\015\ufff4\016\ufff4" +
+    "\020\ufff4\022\ufff4\023\ufff4\024\ufff4\025\ufff4\001\002\000" +
+    "\004\015\042\001\002\000\022\002\ufff9\004\010\005\012" +
+    "\006\005\007\007\012\011\016\004\017\ufff9\001\002\000" +
+    "\006\002\ufffc\017\ufffc\001\002\000\004\012\045\001\002" +
+    "\000\004\011\046\001\002\000\004\013\047\001\002\000" +
+    "\004\015\050\001\002\000\016\004\010\005\012\006\005" +
+    "\007\007\012\011\016\004\001\002\000\006\002\uffff\017" +
+    "\uffff\001\002\000\006\002\ufffa\017\ufffa\001\002\000\004" +
+    "\002\001\001\002\000\006\002\ufffb\017\ufffb\001\002\000" +
+    "\004\017\056\001\002\000\006\002\000\017\000\001\002" +
+    "" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -72,17 +98,23 @@ public class Analizador_sintactico extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\034\000\004\002\005\001\001\000\004\002\034\001" +
-    "\001\000\004\002\033\001\001\000\002\001\001\000\004" +
-    "\002\031\001\001\000\002\001\001\000\002\001\001\000" +
+    "\000\054\000\004\002\005\001\001\000\004\002\054\001" +
+    "\001\000\004\002\053\001\001\000\002\001\001\000\004" +
+    "\002\051\001\001\000\002\001\001\000\002\001\001\000" +
     "\004\002\012\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\004\002\017\001" +
-    "\001\000\002\001\001\000\002\001\001\000\004\002\022" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\004\002\030" +
+    "\000\004\003\024\001\001\000\004\003\036\001\001\000" +
+    "\004\003\034\001\001\000\002\001\001\000\004\003\033" +
+    "\001\001\000\004\003\032\001\001\000\004\003\031\001" +
+    "\001\000\002\001\001\000\002\001\001\000\004\002\026" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "" });
+    "\000\004\003\035\001\001\000\002\001\001\000\004\003" +
+    "\037\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\002\042\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\002\050\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -122,13 +154,15 @@ public class Analizador_sintactico extends java_cup.runtime.lr_parser {
 
 
 
-    // • Acá vamos a crear una linked list para guardar todos los conjuntos que encontremos
+
+    
+    // listas que nos van a servir
     public static LinkedList<conjunto> conjuntos = new LinkedList<conjunto>(); 
     public static LinkedList<RegExp> expresiones = new LinkedList<RegExp>(); 
-    String exp = "";
+    public static LinkedList<cadena> cadenas = new LinkedList<cadena>(); 
+    public static LinkedList<TError> errores = new LinkedList<TError>();
 
-    //creamos un nuevo objeto linked list
-    public static LinkedList<TError> errores = new LinkedList<TError>(); 
+    
 
     // esta función nata de la herramienta, manda a llamar todos los errores sintacticos
     // necesita un objeto simbolo
@@ -237,21 +271,45 @@ class CUP$Analizador_sintactico$actions {
           return CUP$Analizador_sintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // INICIO ::= id asignacion exp_reg punto_y_coma INICIO 
+          case 3: // INICIO ::= id asignacion E punto_y_coma INICIO 
             {
               Object RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)).value;
-		int dleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)).left;
-		int dright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)).right;
-		Object d = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)).value;
+		int dleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-3)).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-3)).right;
+		Object d = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-3)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-1)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-1)).value;
 		
-                                        //System.out.println(exp);
-                                        System.out.println(d.toString());
-                                        
 
-                                        //RegExp nuevo = new RegExp(c.value().toString(), d.toString());
+                                        // tenemos una lista con los tokens guardados, vamos a intentar sacar al exp reg sabiendo el
+                                         //   número de fila y columna del token anterior y posterior a esta
+                                        
+                                        // acá vamos a extraer los valores de las variables que nos genera el .cup (Archivo Analizador_sintactico. java linea 291 aprox)  
+ 
+                                        int fila = dright;
+                                        int col_anterior = dleft;
+                                        int col_posterior = eleft;
+                                        LinkedList<Token> expre = new LinkedList<Token>(); // Lista te los tokens que conforman una expresion regular
+
+                                        
+                                        for (Token tok : Analizador_Lexico.tokens) {
+                                            if (tok.linea == fila && tok.columna>col_anterior && tok.columna<col_posterior){
+                                                expre.add(tok);
+                                            }
+                                        }
+                                        RegExp nuevo = new RegExp(c.toString(), expre);
+                                        expresiones.add(nuevo);
+                                            
+
+
+                                        
+                                        //System.out.println(d.value());
+                                        //expre = new LinkedList<String>();
+                                        //RegExp nuevo = new RegExp(c.toString(), d.toString());
                                         //expresiones.add(nuevo);
                                         
               CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
@@ -271,7 +329,16 @@ class CUP$Analizador_sintactico$actions {
           case 5: // INICIO ::= id dos_puntos cadena punto_y_coma INICIO 
             {
               Object RESULT =null;
-
+		int cleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)).right;
+		Object c = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)).value;
+		int dleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)).right;
+		Object d = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)).value;
+		
+                                        cadena nuevo = new cadena(c.toString(), d.toString());
+                                        cadenas.add(nuevo);
+                                        
               CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
             }
           return CUP$Analizador_sintactico$result;
@@ -298,7 +365,16 @@ class CUP$Analizador_sintactico$actions {
           case 8: // INICIO ::= id dos_puntos cadena punto_y_coma 
             {
               Object RESULT =null;
-
+		int cleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-3)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-3)).right;
+		Object c = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-3)).value;
+		int dleft = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-1)).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-1)).right;
+		Object d = (Object)((java_cup.runtime.Symbol) CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-1)).value;
+		
+                                        cadena nuevo = new cadena(c.toString(), d.toString());
+                                        cadenas.add(nuevo);
+                                        
               CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
             }
           return CUP$Analizador_sintactico$result;
@@ -327,6 +403,69 @@ class CUP$Analizador_sintactico$actions {
               Object RESULT =null;
 
               CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Analizador_sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 12: // E ::= punto E E 
+            {
+              Object RESULT =null;
+
+              CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("E",1, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Analizador_sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 13: // E ::= o_logico E E 
+            {
+              Object RESULT =null;
+
+              CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("E",1, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Analizador_sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 14: // E ::= asterisco E 
+            {
+              Object RESULT =null;
+
+              CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("E",1, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Analizador_sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // E ::= mas E 
+            {
+              Object RESULT =null;
+
+              CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("E",1, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Analizador_sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 16: // E ::= duda E 
+            {
+              Object RESULT =null;
+
+              CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("E",1, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Analizador_sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 17: // E ::= llave_a id llave_c 
+            {
+              Object RESULT =null;
+
+              CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("E",1, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.elementAt(CUP$Analizador_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Analizador_sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 18: // E ::= cadena 
+            {
+              Object RESULT =null;
+
+              CUP$Analizador_sintactico$result = parser.getSymbolFactory().newSymbol("E",1, ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Analizador_sintactico$stack.peek()), RESULT);
             }
           return CUP$Analizador_sintactico$result;
 

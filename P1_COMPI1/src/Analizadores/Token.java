@@ -2,16 +2,16 @@
 package analizadores;
 
 public class Token {
-    
-    String tipo, lexema;
+
+    public String tipo, lexema;
     int linea, columna;
     
 
     public Token(String tipo, String lexema, int linea, int columna) {
         this.tipo = tipo;
         this.lexema = lexema;
-        this.linea = linea+1;
-        this.columna = columna+1;
+        this.linea = linea;
+        this.columna = columna;
     }
 
     public String show() { //retorna una cadena de informacion 

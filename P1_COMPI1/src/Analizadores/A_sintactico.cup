@@ -9,13 +9,15 @@ parser code
 
 {:
 
-    // • Acá vamos a crear una linked list para guardar todos los conjuntos que encontremos
+
+    
+    // listas que nos van a servir
     public static LinkedList<conjunto> conjuntos = new LinkedList<conjunto>(); 
     public static LinkedList<RegExp> expresiones = new LinkedList<RegExp>(); 
-    String exp = "";
+    public static LinkedList<cadena> cadenas = new LinkedList<cadena>(); 
+    public static LinkedList<TError> errores = new LinkedList<TError>();
 
-    //creamos un nuevo objeto linked list
-    public static LinkedList<TError> errores = new LinkedList<TError>(); 
+    
 
     // esta función nata de la herramienta, manda a llamar todos los errores sintacticos
     // necesita un objeto simbolo
@@ -76,12 +78,8 @@ terminal asterisco;
 terminal o_logico;
 terminal mas;
 terminal duda;
-terminal exp_reg;
 
-non terminal INICIO;
-
-precedence left id, cadena;
-
+non terminal INICIO, E;
 start with INICIO;
 
 INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entrada");:}
@@ -93,23 +91,58 @@ INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entra
                                         :}
 
 
-        |id:c asignacion exp_reg:d punto_y_coma INICIO
-                                        {:
-                                        //System.out.println(exp);
-                                        System.out.println(d.toString());
-                                        
+        |id:c asignacion:d E punto_y_coma:e INICIO {:
 
-                                        //RegExp nuevo = new RegExp(c.value().toString(), d.toString());
+                                        // tenemos una lista con los tokens guardados, vamos a intentar sacar al exp reg sabiendo el
+                                         //   número de fila y columna del token anterior y posterior a esta
+                                        
+                                        // acá vamos a extraer los valores de las variables que nos genera el .cup (Archivo Analizador_sintactico. java linea 291 aprox)  
+ 
+                                        int fila = dright;
+                                        int col_anterior = dleft;
+                                        int col_posterior = eleft;
+                                        LinkedList<Token> expre = new LinkedList<Token>(); // Lista te los tokens que conforman una expresion regular
+
+                                        
+                                        for (Token tok : Analizador_Lexico.tokens) {
+                                            if (tok.linea == fila && tok.columna>col_anterior && tok.columna<col_posterior){
+                                                expre.add(tok);
+                                            }
+                                        }
+                                        RegExp nuevo = new RegExp(c.toString(), expre);
+                                        expresiones.add(nuevo);
+                                            
+
+
+                                        
+                                        //System.out.println(d.value());
+                                        //expre = new LinkedList<String>();
+                                        //RegExp nuevo = new RegExp(c.toString(), d.toString());
                                         //expresiones.add(nuevo);
                                         :}
         |delimitadores INICIO
-        |id dos_puntos cadena punto_y_coma INICIO
+        |id:c dos_puntos cadena:d punto_y_coma INICIO{:
+                                        cadena nuevo = new cadena(c.toString(), d.toString());
+                                        cadenas.add(nuevo);
+                                        :}
+
         |comentario_unilinea INICIO
         |comentario_multilinea INICIO
-
-        |id dos_puntos cadena punto_y_coma
+        |id:c dos_puntos cadena:d punto_y_coma{:
+                                        cadena nuevo = new cadena(c.toString(), d.toString());
+                                        cadenas.add(nuevo);
+                                        :}
         |comentario_unilinea
         |comentario_multilinea
         |delimitadores
 ;
 
+
+E::= punto E E                 
+    |o_logico E E
+    |asterisco E
+    |mas E
+    |duda E
+    |llave_a id llave_c
+    |cadena   
+;

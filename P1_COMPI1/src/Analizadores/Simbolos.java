@@ -23,7 +23,6 @@ public class Simbolos {
   public static final int duda = 19;
   public static final int id = 8;
   public static final int error = 1;
-  public static final int exp_reg = 20;
   public static final int delimitadores = 3;
   public static final int o_logico = 17;
   public static final int asterisco = 16;
@@ -49,8 +48,7 @@ public class Simbolos {
   "asterisco",
   "o_logico",
   "mas",
-  "duda",
-  "exp_reg"
+  "duda"
   };
 }
 
