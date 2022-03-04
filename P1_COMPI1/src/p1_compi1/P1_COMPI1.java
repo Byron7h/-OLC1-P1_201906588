@@ -145,4 +145,13 @@ public class P1_COMPI1 {
         
     }
     
+    public int cantidad_hijos(Token tok){ // Metodo para saber que cantidad de hijos debe tener el nodo que ceraremos a partir del token
+        int cantidad = 2; 
+        String tipo = tok.tipo;
+        if ("mas".equals(tipo) || "asterisco".equals(tipo) || "duda".equals(tipo)){
+            cantidad = 1;
+        }
+        return cantidad;
+    }
+    
 }
