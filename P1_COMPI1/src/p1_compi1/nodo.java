@@ -11,7 +11,7 @@ public class nodo {
     Token contenido; 
     boolean recorrido = false;
     
-    String tipo = "nodo";
+    boolean enlazable = false;
     boolean anulable = false; //Será falso por defecto
     String pos_p;
     String pos_u;
@@ -22,6 +22,10 @@ public class nodo {
     public nodo(int hijos, Token contenido){
         this.contenido = contenido;
         this.hijos = hijos;
+        
+        if ("id".equals(contenido.tipo) ||"cadena".equals(contenido.tipo) ||"aceptacion".equals(contenido.tipo)){
+            this.enlazable = true;
+        }
     }
     
     public void set_padre(nodo padre){
@@ -56,7 +60,15 @@ public class nodo {
         this.anulable = true;
     }
     
+    public void es_enlazable(){
+        this.enlazable= true;
+    }
+    
     //GETS
+    
+    public Token get_contenido(){
+        return contenido;
+    }
     
     public nodo get_derecha(){
         return derecha;
@@ -70,9 +82,6 @@ public class nodo {
         return abajo;
     }
     
-    public String get_tipo(){
-        return tipo;
-    }
     
     public String get_pos_u(){
         return pos_u;
@@ -92,5 +101,9 @@ public class nodo {
     
     public boolean get_anulable(){
         return anulable;
+    }
+    
+    public boolean get_enlazable(){
+        return enlazable;
     }
 }
