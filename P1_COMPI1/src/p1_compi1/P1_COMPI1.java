@@ -66,8 +66,8 @@ public class P1_COMPI1 {
         Token nuevo = new Token("punto",".",1,1);
         expresion.add(nuevo);
         
-        nuevo = new Token("mas","+",1,1);
-        expresion.add(nuevo);
+        //nuevo = new Token("mas","+",1,1);
+        //expresion.add(nuevo);
         
         nuevo = new Token("llave_a","{",1,1);
         expresion.add(nuevo);
@@ -135,6 +135,13 @@ public class P1_COMPI1 {
         //• Reducciones
         while (expresion.size() != 1){
             for (int i = 1; i < expresion.size(); i++){
+                
+                if (expresion.size() == 3){
+                    expresion.remove(2);
+                    expresion.remove(1);
+                    break;
+                }
+                
                 int posicion = expresion.size() - i;
                 nodo actual =  expresion.get(posicion);
                 
