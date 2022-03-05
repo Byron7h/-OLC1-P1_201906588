@@ -12,7 +12,7 @@ public class nodo {
     boolean recorrido = false;
     
     boolean enlazable = false;
-    boolean anulable = false; //Será falso por defecto
+    String anulable = "F"; //Será falso por defecto
     String pos_p;
     String pos_u;
 
@@ -57,7 +57,7 @@ public class nodo {
     }
     
     public void es_anulable(){
-        this.anulable = true;
+        this.anulable = "V";
     }
     
     public void es_enlazable(){
@@ -99,11 +99,16 @@ public class nodo {
         return hijos;
     }
     
-    public boolean get_anulable(){
+    public String get_anulable(){
         return anulable;
     }
     
     public boolean get_enlazable(){
         return enlazable;
     }
+    
+    public String get_lexema(){
+        return contenido.lexema;
+    }
+    
 }

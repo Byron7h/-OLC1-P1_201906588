@@ -109,12 +109,9 @@ public class P1_COMPI1 {
         
         Token nuevo = new Token("punto",".");
         expre.addFirst(nuevo);
-        
         nuevo = new Token("aceptacion","#");
         expre.addLast(nuevo);
-        
         LinkedList<Token> aux = new LinkedList<>();
-
         imprimir_lista(expre);
         
         // • Paso 2 Quitando los parentesis inneccesarios
@@ -133,12 +130,46 @@ public class P1_COMPI1 {
         imprimir_lista(expresion);
         
         //• Reducciones
+        // Aca tambien iremos creando la cadena que imprimiremos en el dto, para el grafo 
+        
+        String result = "digraph structs {\n";
+        //result += "label = \""+ nombre + "\";\n";
+        result += "    node [shape=record, ];\n";
+        
+        
         while (expresion.size() != 1){
             for (int i = 1; i < expresion.size(); i++){
                 
                 if (expresion.size() == 3){
+                    
+                    nodo actual = expresion.get(0);
+                    nodo derecha = expresion.get(1);
+                    nodo izquierda = expresion.get(2);
+                            
+                    actual.set_derecha(derecha);
+                    actual.set_izquierda(izquierda);
+                    derecha.set_padre(actual);
+                    izquierda.set_padre(actual);
+                            
+                            
+                            
+                    //Creando nodos en el grafo
+                    //struct0 [label="{ F |{1|<here> digito|1}|1}"];
+                    int nombre_padre = actual.hashCode(); 
+                    int nombre_derecha = derecha.hashCode(); 
+                    int nombre_izquierda = izquierda.hashCode(); 
+                    result += "    "+nombre_padre+" [label=\"{"+actual.get_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
+                    result += "    "+nombre_derecha+" [label=\"{"+derecha.get_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_p()+"}|}\"];\n";
+                    result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_p()+"}|}\"];\n";                            
+                            
+                    // enlazando nodos
+                    result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
+                    result += "    "+nombre_padre+" -> "+nombre_izquierda+";\n";
+                            
                     expresion.remove(2);
                     expresion.remove(1);
+
+                    
                     break;
                 }
                 
@@ -154,7 +185,25 @@ public class P1_COMPI1 {
                         if (expresion.get(expresion.size() - i + 1).enlazable == true){
                             //procedemos a enlazar y a eliminar
                             actual.es_enlazable();
+                            nodo hijo = expresion.get(expresion.size() - i + 1);
+                            actual.set_abajo(hijo);
+                            hijo.set_padre(actual);
+                            
+                            
+                            //Creando nodos en el grafo
+                            //struct0 [label="{ F |{1|<here> digito|1}|1}"];
+                            int nombre_padre = actual.hashCode(); 
+                            int nombre_hijo = hijo.hashCode(); 
+                            result += "    "+nombre_padre+" [label=\"{"+actual.get_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
+                            result += "    "+nombre_hijo+" [label=\"{"+hijo.get_anulable()+"|{"+hijo.get_pos_p()+"|<here>"+hijo.get_lexema()+"|"+hijo.get_pos_p()+"}|}\"];\n";
+                            // enlazando nodos
+                            result += "    "+nombre_padre+" -> "+nombre_hijo+";\n";
+                            
                             expresion.remove(expresion.size() - i + 1);
+                            
+                            
+                            
+                            
                             break;
                         }// si no solo pasa al siguiente
                     }
@@ -163,6 +212,37 @@ public class P1_COMPI1 {
                         if (expresion.get(expresion.size() - i + 1).enlazable == true && expresion.get(expresion.size() - i + 2).enlazable == true){
                             //procedemos a enlazar y a eliminar
                             actual.es_enlazable();
+                            nodo derecha = expresion.get(expresion.size() - i + 1);
+                            nodo izquierda = expresion.get(expresion.size() - i + 2);
+                            
+                            actual.set_derecha(derecha);
+                            actual.set_izquierda(izquierda);
+                            derecha.set_padre(actual);
+                            izquierda.set_padre(actual);
+                            
+                            
+                            
+                            //Creando nodos en el grafo
+                            //struct0 [label="{ F |{1|<here> digito|1}|1}"];
+                            int nombre_padre = actual.hashCode(); 
+                            int nombre_derecha = derecha.hashCode(); 
+                            int nombre_izquierda = izquierda.hashCode(); 
+                            result += "    "+nombre_padre+" [label=\"{"+actual.get_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
+                            result += "    "+nombre_derecha+" [label=\"{"+derecha.get_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_p()+"}|}\"];\n";
+                            result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_p()+"}|}\"];\n";                            
+                            
+                            // enlazando nodos
+                            result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
+                            result += "    "+nombre_padre+" -> "+nombre_izquierda+";\n";
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                             int cantidad = expresion.size();
                             expresion.remove(cantidad  - i + 2);
                             expresion.remove(cantidad  - i + 1);
@@ -172,7 +252,9 @@ public class P1_COMPI1 {
                 }    
             }
         imprimir_lista(expresion);
-        }   
+        }
+        result += "}";
+        System.out.println(result);
     }
     
     public static void imprimir_lista(LinkedList<Token> expre){
@@ -204,5 +286,6 @@ public class P1_COMPI1 {
         }
         return cantidad;
     }
+
     
 }

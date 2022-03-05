@@ -1,0 +1,18 @@
+digraph structs {
+    node [shape=record, ];
+    struct0 [label="{ F |{1|<here> digito|1}|1}"];
+    struct1 [label="{ F |{2|<here> ¨cadena¨|2}|2}"];
+    struct2 [label="{ F |{3|<here> digito|3}|3}"];
+    struct3 [label="{ F |{4|<here> #|4}|4}"];
+    struct4 [label="{ V |{3|<here> +|3}| }"];
+    struct5 [label="{ F |{2|<here> .|2, 3}| }"];
+    struct6 [label="{ F |{1|<here> .|2, 3}| }"];
+    struct7 [label="{ F |{1|<here> .|4}| }"];
+    struct4 -> struct2;
+    struct5 -> struct1;
+    struct5 -> struct4;
+    struct6 -> struct0;
+    struct6 -> struct5;
+    struct7 -> struct6;
+    struct7 -> struct3
+}
