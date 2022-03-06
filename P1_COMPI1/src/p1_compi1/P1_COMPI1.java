@@ -188,6 +188,7 @@ public class P1_COMPI1 {
                     
                     //anulable y posiciones
                     anulable(actual);
+                    primeras_y_ultimas_posiciones(actual);
                     
                             
                             
@@ -229,7 +230,7 @@ public class P1_COMPI1 {
                             
                             //anulable y posiciones
                             anulable(actual);
-                            
+                            primeras_y_ultimas_posiciones(actual);
                             
                             //Creando nodos en el grafo
                             int nombre_padre = actual.hashCode(); 
@@ -257,12 +258,12 @@ public class P1_COMPI1 {
                             actual.set_derecha(derecha);
                             actual.set_izquierda(izquierda);
                             derecha.set_padre(actual);
-                            izquierda.set_padre(actual);
+                            //izquierda.set_padre(actual);
                             
 
                             //anulable y posiciones
                             anulable(actual);
-                            
+                            primeras_y_ultimas_posiciones(actual);
 
                             //Creando nodos en el grafo
                             int nombre_padre = actual.hashCode(); 
@@ -358,16 +359,62 @@ public class P1_COMPI1 {
     public static ArrayList<Integer> unir_posiciones (ArrayList<Integer> lista1, ArrayList<Integer> lista2){
         //lista1, en la que se va a buscar e isertar
         //lista2 de la que se van a extraer los elementos
+        
+        ArrayList<Integer> auxiliar = new ArrayList<Integer>();
+        
+        for (Integer num : lista1) {
+            auxiliar.add(num);
+        }
+        
 
         for (Integer num : lista2) {
-            if (lista1.indexOf(num)== -1){ //no se encuentra en esa lista
-                lista1.add(num);
+            if (auxiliar.indexOf(num)== -1){ //no se encuentra en esa lista
+                auxiliar.add(num);
             }
         }
         //System.out.println(lista1.toString()); //podemos imprimirla de esta forma
-        Collections.sort(lista1);
-        return lista1;
+        Collections.sort(auxiliar);
+        return auxiliar;
     
+        
+    }
+    
+    public static void primeras_y_ultimas_posiciones(nodo enlazado){
+        
+        if ("asterisco".equals(enlazado.get_tipo()) || "duda".equals(enlazado.get_tipo()) || "mas".equals(enlazado.get_tipo())){
+            enlazado.set_pos_p(enlazado.get_abajo().get_pos_p());
+            enlazado.set_pos_u(enlazado.get_abajo().get_pos_u());
+            
+        }else if("o_logico".equals(enlazado.get_tipo())){ //union de las primeras y ultimas posiciones de sus hijos
+            ArrayList<Integer> primeras = unir_posiciones(enlazado.get_derecha().get_pos_p(),enlazado.get_izquierda().get_pos_p());
+            ArrayList<Integer> ultimas = unir_posiciones(enlazado.get_derecha().get_pos_u(),enlazado.get_izquierda().get_pos_u());
+            enlazado.set_pos_p(primeras);
+            enlazado.set_pos_u(ultimas);
+
+        }else{ // si es concatencacion
+            
+            //primeras 
+            if (enlazado.get_izquierda().get_anulable() == true){ // se unen
+                ArrayList<Integer> primeras = unir_posiciones(enlazado.get_derecha().get_pos_p(),enlazado.get_izquierda().get_pos_p());
+                enlazado.set_pos_p(primeras);
+                
+            }else{ // 
+                enlazado.set_pos_u(enlazado.get_izquierda().get_pos_p());
+            }
+            
+            
+            // ultimas
+            if (enlazado.get_derecha().get_anulable() == true){ // se unen
+                ArrayList<Integer> ultimas = unir_posiciones(enlazado.get_derecha().get_pos_u(),enlazado.get_izquierda().get_pos_u());
+                enlazado.set_pos_u(ultimas);
+                
+            }else{ // 
+                enlazado.set_pos_u(enlazado.get_derecha().get_pos_u());
+            }
+            
+            
+            
+        }
         
     }
 
