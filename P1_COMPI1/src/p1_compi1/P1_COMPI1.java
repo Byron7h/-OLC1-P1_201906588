@@ -77,17 +77,11 @@ public class P1_COMPI1 {
         nuevo = new Token("cadena","'a'",1,1);
         expresion.add(nuevo);
         
-        nuevo = new Token("punto",".",1,1);
-        expresion.add(nuevo);
+
         
         nuevo = new Token("cadena","'a'",1,1);
         expresion.add(nuevo);
-        
-        nuevo = new Token("mas","+",1,1);
-        expresion.add(nuevo);
-        
-        nuevo = new Token("id","digito",1,1);
-        expresion.add(nuevo);
+
         
         
     
@@ -155,7 +149,7 @@ public class P1_COMPI1 {
         // Aca tambien iremos creando la cadena que imprimiremos en el dto, para el grafo 
         
         String result = "digraph structs {\n";
-        result += "    node [shape=record, ];\n";
+        result += "    node [shape=record, ];\n    edge [dir = none]\n";
         
         
         while (expresion.size() != 1){
@@ -185,13 +179,13 @@ public class P1_COMPI1 {
                     int nombre_derecha = derecha.hashCode(); 
                     int nombre_izquierda = izquierda.hashCode(); 
                     
-                    result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_u()+"}|}\"];\n";
+                    result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_u()+"}}\"];\n";
                     
                     if ("id".equals(derecha.get_tipo()) ||"cadena".equals(derecha.get_tipo()) ||"aceptacion".equals(derecha.get_tipo())){
-                        result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_u()+"}|}\"];\n";
+                        result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_u()+"}}\"];\n";
                     }
                     if ("id".equals(izquierda.get_tipo()) ||"cadena".equals(izquierda.get_tipo()) ||"aceptacion".equals(izquierda.get_tipo())){
-                        result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_u()+"}|}\"];\n";
+                        result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_u()+"}}\"];\n";
                     }
 
        
@@ -231,11 +225,11 @@ public class P1_COMPI1 {
                             //Creando nodos en el grafo
                             int nombre_padre = actual.hashCode(); 
                             int nombre_hijo = hijo.hashCode(); 
-                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_u()+"}|}\"];\n";
+                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_u()+"}}\"];\n";
                             
                             // si es una hoja se crea el nodo, ya que no existe, pero si no lo es solo se enlaza
                             if ("id".equals(hijo.get_tipo()) ||"cadena".equals(hijo.get_tipo()) ||"aceptacion".equals(hijo.get_tipo())){
-                                    result += "    "+nombre_hijo+" [label=\"{"+hijo.get_str_anulable()+"|{"+hijo.get_pos_p()+"|<here>"+hijo.get_lexema()+"|"+hijo.get_pos_u()+"}|}\"];\n";
+                                    result += "    "+nombre_hijo+" [label=\"{"+hijo.get_str_anulable()+"|{"+hijo.get_pos_p()+"|<here>"+hijo.get_lexema()+"|"+hijo.get_pos_u()+"}}\"];\n";
                             }
                             
                             //enlazando nodos en elgrafo
@@ -272,13 +266,13 @@ public class P1_COMPI1 {
                             int nombre_padre = actual.hashCode(); 
                             int nombre_derecha = derecha.hashCode(); 
                             int nombre_izquierda = izquierda.hashCode(); 
-                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_u()+"}|}\"];\n";
+                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_u()+"}}\"];\n";
                             
                             if ("id".equals(derecha.get_tipo()) ||"cadena".equals(derecha.get_tipo()) ||"aceptacion".equals(derecha.get_tipo())){
-                                    result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_u()+"}|}\"];\n";
+                                    result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_u()+"}}\"];\n";
                             }
                             if ("id".equals(izquierda.get_tipo()) ||"cadena".equals(izquierda.get_tipo()) ||"aceptacion".equals(izquierda.get_tipo())){
-                                    result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_u()+"}|}\"];\n";
+                                    result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_u()+"}}\"];\n";
                             }
 
  
