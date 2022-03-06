@@ -65,7 +65,7 @@ public class P1_COMPI1 {
         
         //.{digito}."."+{digito}
         //. + {digito} . "." + {digito}
-        
+        //."a"."a"+{grupo_1}
         
         
         
@@ -73,40 +73,24 @@ public class P1_COMPI1 {
         LinkedList<Token> expresion = new LinkedList<>();
         Token nuevo = new Token("punto",".",1,1);
         expresion.add(nuevo);
-        nuevo = new Token("punto",".",1,1);
-        expresion.add(nuevo);
-        nuevo = new Token("asterisco","*",1,1);
-        expresion.add(nuevo);
         
-        nuevo = new Token("llave_a","{",1,1);
-        expresion.add(nuevo);
-        
-        nuevo = new Token("id","digito",1,1);
-        expresion.add(nuevo);
-        
-        nuevo = new Token("llave_c","}",1,1);
+        nuevo = new Token("cadena","'a'",1,1);
         expresion.add(nuevo);
         
         nuevo = new Token("punto",".",1,1);
         expresion.add(nuevo);
         
-        nuevo = new Token("cadena","'.'",1,1);
+        nuevo = new Token("cadena","'a'",1,1);
         expresion.add(nuevo);
         
-        nuevo = new Token("duda","?",1,1);
-        expresion.add(nuevo);
-        
-        nuevo = new Token("llave_a","{",1,1);
+        nuevo = new Token("mas","+",1,1);
         expresion.add(nuevo);
         
         nuevo = new Token("id","digito",1,1);
         expresion.add(nuevo);
         
-        nuevo = new Token("llave_c","}",1,1);
-        expresion.add(nuevo);
-   
-        nuevo = new Token("id","digito",1,1);
-        expresion.add(nuevo);
+        
+    
 
         arbol(expresion);
 
@@ -271,8 +255,8 @@ public class P1_COMPI1 {
                             
                             //procedemos a enlazar y a eliminar
                             actual.es_enlazable();
-                            nodo derecha = expresion.get(expresion.size() - i + 1);
-                            nodo izquierda = expresion.get(expresion.size() - i + 2);
+                            nodo izquierda = expresion.get(expresion.size() - i + 1); // izquierda porqu e este es e primero que viene en la exp regular
+                            nodo derecha = expresion.get(expresion.size() - i + 2);
                             
                             actual.set_derecha(derecha);
                             actual.set_izquierda(izquierda);
