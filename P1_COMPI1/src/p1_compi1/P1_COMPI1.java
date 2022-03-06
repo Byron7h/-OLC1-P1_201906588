@@ -9,13 +9,17 @@ import analizadores.RegExp;
 import analizadores.cadena;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.Comparator;
 
 public class P1_COMPI1 {
 
     public static void main(String[] args) {
+        
+        Integer contador = 1;
      
         /*
         try {
@@ -62,8 +66,12 @@ public class P1_COMPI1 {
         //.{digito}."."+{digito}
         //. + {digito} . "." + {digito}
         
+        
+        
+        
+      
         LinkedList<Token> expresion = new LinkedList<>();
-        Token nuevo = new Token("o_logico","|",1,1);
+        Token nuevo = new Token("punto",".",1,1);
         expresion.add(nuevo);
         
         nuevo = new Token("asterisco","*",1,1);
@@ -84,7 +92,7 @@ public class P1_COMPI1 {
         nuevo = new Token("cadena","'.'",1,1);
         expresion.add(nuevo);
         
-        nuevo = new Token("mas","+",1,1);
+        nuevo = new Token("duda","?",1,1);
         expresion.add(nuevo);
         
         nuevo = new Token("llave_a","{",1,1);
@@ -98,9 +106,23 @@ public class P1_COMPI1 {
    
 
         arbol(expresion);
+
+      
         
+        /*
+        ArrayList<Integer> lista1 = new ArrayList<>(); //lista en la que se va a buscar e isertar
+        lista1.add(1);
+        lista1.add(2);
+        ArrayList<Integer> lista2 = new ArrayList<>(); //lista de la que se van a extraer los elementos
+        lista2.add(125);
+        lista2.add(2);
+        lista2.add(9);
+        lista2.add(80);
         
-        
+        System.out.println(unir_posiciones(lista1, lista2));
+*/
+            
+
         
     }
     
@@ -108,34 +130,44 @@ public class P1_COMPI1 {
         
         // • Paso 1 Agregando la concatenación al estado de aceptación 
         
+        Integer contador = 1; //contador para el número de hoja
+        
+        
+        // agegamos la ocncatencación al signo de aceptación
         Token nuevo = new Token("punto",".");
         expre.addFirst(nuevo);
         nuevo = new Token("aceptacion","#");
         expre.addLast(nuevo);
-        LinkedList<Token> aux = new LinkedList<>();
-        imprimir_lista(expre);
         
         // • Paso 2 Quitando los parentesis inneccesarios
-            // acá vamos a aprovechar este recorrido para cambiar de un linkedlist a un arraylist de nodos
+        // acá vamos a aprovechar este recorrido para cambiar de un linkedlist a un arraylist de nodos
+        // y agregamos la primeras y ultimas posiciones a las hojas
         
         ArrayList<nodo> expresion = new ArrayList<>();
         for(Token tok:expre){
             if ("llave_a".equals(tok.tipo) || "llave_c".equals(tok.tipo) ){  
             }else{
                 
-                nodo nuevo_nodo = new nodo(cantidad_hijos(tok), tok);         
+                nodo nuevo_nodo = new nodo(cantidad_hijos(tok), tok);  
                 expresion.add(nuevo_nodo);
                 
+                // Primeras y ultimas posiciones de los nodos hoja
+                if ("cadena".equals(nuevo_nodo.get_tipo()) || "id".equals(nuevo_nodo.get_tipo()) || "aceptacion".equals(nuevo_nodo.get_tipo())){
+                    ArrayList<Integer> lista1 = new ArrayList<>(); //lista en la que se va a buscar e isertar
+                    lista1.add(contador);
+                    contador ++ ;
+                    
+                    nuevo_nodo.set_pos_p(lista1);
+                    nuevo_nodo.set_pos_u(lista1);      
+                }               
             }
         }
         
-        imprimir_lista(expresion);
         
         //• Reducciones
         // Aca tambien iremos creando la cadena que imprimiremos en el dto, para el grafo 
         
         String result = "digraph structs {\n";
-        //result += "label = \""+ nombre + "\";\n";
         result += "    node [shape=record, ];\n";
         
         
@@ -168,14 +200,13 @@ public class P1_COMPI1 {
                     result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_p()+"}|}\"];\n";
                     result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_p()+"}|}\"];\n";                            
                             
-                    // enlazando nodos
+                    // enlazando nodos en el grafo
                     result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
                     result += "    "+nombre_padre+" -> "+nombre_izquierda+";\n";
-                            
-                    expresion.remove(2);
-                    expresion.remove(1);
 
-                    
+                    // sacando tokens del arraylist para continuar con las reducciones
+                    expresion.remove(2);
+                    expresion.remove(1);             
                     break;
                 }
                 
@@ -206,6 +237,8 @@ public class P1_COMPI1 {
                             result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
                             result += "    "+nombre_hijo+" [label=\"{"+hijo.get_str_anulable()+"|{"+hijo.get_pos_p()+"|<here>"+hijo.get_lexema()+"|"+hijo.get_pos_p()+"}|}\"];\n";
                             result += "    "+nombre_padre+" -> "+nombre_hijo+";\n";                            
+                            
+                            // sacando tokens del arraylist para continuar con las reducciones
                             expresion.remove(expresion.size() - i + 1);
 
                             
@@ -243,12 +276,13 @@ public class P1_COMPI1 {
                             result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
                             result += "    "+nombre_padre+" -> "+nombre_izquierda+";\n";
                             
-
+                            // sacando tokens del arraylist para continuar con las reducciones
                             int cantidad = expresion.size();
                             expresion.remove(cantidad  - i + 2);
                             expresion.remove(cantidad  - i + 1);
                             break;
-                        }// si no solo pasa al siguiente
+                            
+                        }// si no entra a ninguno solo pasa al siguiente
                     }
                 }    
             }
@@ -320,4 +354,21 @@ public class P1_COMPI1 {
             }
         }
     }  //Este será solo para los padres, porque las hojas ya están, porque sonF por defecto
+
+    public static ArrayList<Integer> unir_posiciones (ArrayList<Integer> lista1, ArrayList<Integer> lista2){
+        //lista1, en la que se va a buscar e isertar
+        //lista2 de la que se van a extraer los elementos
+
+        for (Integer num : lista2) {
+            if (lista1.indexOf(num)== -1){ //no se encuentra en esa lista
+                lista1.add(num);
+            }
+        }
+        //System.out.println(lista1.toString()); //podemos imprimirla de esta forma
+        Collections.sort(lista1);
+        return lista1;
+    
+        
+    }
+
 }

@@ -1,5 +1,6 @@
 package p1_compi1;
 import analizadores.Token;
+import java.util.ArrayList;
 
 public class nodo {
         
@@ -13,8 +14,8 @@ public class nodo {
     
     boolean enlazable = false;
     String anulable = "F"; //Será falso por defecto
-    String pos_p;
-    String pos_u;
+    ArrayList<Integer> pos_p;
+    ArrayList<Integer> pos_u;
     String tipo;
 
     
@@ -46,11 +47,11 @@ public class nodo {
         this.abajo = abajo;
     }
     
-    public void set_pos_u(String pos_u){
+    public void set_pos_u(ArrayList<Integer> pos_u){
         this.pos_u = pos_u;
     }
     
-    public void set_pos_p(String pos_p){
+    public void set_pos_p(ArrayList<Integer> pos_p){
         this.pos_p = pos_p;
     }
         
@@ -85,11 +86,11 @@ public class nodo {
     }
     
     
-    public String get_pos_u(){
+    public ArrayList<Integer> get_pos_u(){
         return pos_u;
     }
     
-    public String get_pos_p(){
+    public ArrayList<Integer> get_pos_p(){
         return pos_p;
     }
     
@@ -114,8 +115,7 @@ public class nodo {
         return anulable; 
     }
     
-    
-    
+
     public boolean get_enlazable(){
         return enlazable;
     }
