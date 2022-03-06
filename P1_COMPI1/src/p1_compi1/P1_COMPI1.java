@@ -286,6 +286,13 @@ public class P1_COMPI1 {
                             result += "    "+nombre_padre+" -> "+nombre_izquierda+";\n";
                             result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
                             
+                            //Creando subgrafo para que se ordene en orden, los nodos van como una cola
+                            result += "    subgraph cluster_"+nombre_padre+" {\n"
+                                    + "      color = white;\n"
+                                    + "      "+nombre_izquierda+"; "+nombre_derecha+"; }\n";
+
+                            
+                            
                             
                             // sacando tokens del arraylist para continuar con las reducciones
                             int cantidad = expresion.size();
