@@ -15,6 +15,7 @@ public class nodo {
     String anulable = "F"; //Será falso por defecto
     String pos_p;
     String pos_u;
+    String tipo;
 
     
     //SETS
@@ -22,6 +23,7 @@ public class nodo {
     public nodo(int hijos, Token contenido){
         this.contenido = contenido;
         this.hijos = hijos;
+        this.tipo= contenido.tipo;
         
         if ("id".equals(contenido.tipo) ||"cadena".equals(contenido.tipo) ||"aceptacion".equals(contenido.tipo)){
             this.enlazable = true;
@@ -99,9 +101,20 @@ public class nodo {
         return hijos;
     }
     
-    public String get_anulable(){
-        return anulable;
+    public boolean get_anulable(){
+        if ("F".equals(anulable)){
+            return false;
+        }else{
+            return true;
+        }
+        
     }
+    
+    public String get_str_anulable(){
+        return anulable; 
+    }
+    
+    
     
     public boolean get_enlazable(){
         return enlazable;
@@ -109,6 +122,10 @@ public class nodo {
     
     public String get_lexema(){
         return contenido.lexema;
+    }
+    
+    public String get_tipo(){
+        return tipo;
     }
     
 }

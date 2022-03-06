@@ -63,11 +63,11 @@ public class P1_COMPI1 {
         //. + {digito} . "." + {digito}
         
         LinkedList<Token> expresion = new LinkedList<>();
-        Token nuevo = new Token("punto",".",1,1);
+        Token nuevo = new Token("o_logico","|",1,1);
         expresion.add(nuevo);
         
-        //nuevo = new Token("mas","+",1,1);
-        //expresion.add(nuevo);
+        nuevo = new Token("asterisco","*",1,1);
+        expresion.add(nuevo);
         
         nuevo = new Token("llave_a","{",1,1);
         expresion.add(nuevo);
@@ -78,7 +78,7 @@ public class P1_COMPI1 {
         nuevo = new Token("llave_c","}",1,1);
         expresion.add(nuevo);
         
-        nuevo = new Token("punto",".",1,1);
+        nuevo = new Token("o_logico","|",1,1);
         expresion.add(nuevo);
         
         nuevo = new Token("cadena","'.'",1,1);
@@ -103,6 +103,7 @@ public class P1_COMPI1 {
         
         
     }
+    
     public static void arbol(LinkedList<Token> expre){ 
         
         // • Paso 1 Agregando la concatenación al estado de aceptación 
@@ -124,6 +125,7 @@ public class P1_COMPI1 {
                 
                 nodo nuevo_nodo = new nodo(cantidad_hijos(tok), tok);         
                 expresion.add(nuevo_nodo);
+                
             }
         }
         
@@ -142,25 +144,29 @@ public class P1_COMPI1 {
                 
                 if (expresion.size() == 3){
                     
+                    // creando el arbol, enlazando nodos
                     nodo actual = expresion.get(0);
                     nodo derecha = expresion.get(1);
                     nodo izquierda = expresion.get(2);
-                            
+                    
                     actual.set_derecha(derecha);
                     actual.set_izquierda(izquierda);
                     derecha.set_padre(actual);
                     izquierda.set_padre(actual);
+                    
+                    //anulable y posiciones
+                    anulable(actual);
+                    
                             
                             
                             
                     //Creando nodos en el grafo
-                    //struct0 [label="{ F |{1|<here> digito|1}|1}"];
                     int nombre_padre = actual.hashCode(); 
                     int nombre_derecha = derecha.hashCode(); 
                     int nombre_izquierda = izquierda.hashCode(); 
-                    result += "    "+nombre_padre+" [label=\"{"+actual.get_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
-                    result += "    "+nombre_derecha+" [label=\"{"+derecha.get_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_p()+"}|}\"];\n";
-                    result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_p()+"}|}\"];\n";                            
+                    result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
+                    result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_p()+"}|}\"];\n";
+                    result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_p()+"}|}\"];\n";                            
                             
                     // enlazando nodos
                     result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
@@ -183,26 +189,25 @@ public class P1_COMPI1 {
                     // Vemos la cantidad de hijos del nodo                 
                     if (actual.get_hijos() == 1){
                         if (expresion.get(expresion.size() - i + 1).enlazable == true){
+                            
                             //procedemos a enlazar y a eliminar
                             actual.es_enlazable();
                             nodo hijo = expresion.get(expresion.size() - i + 1);
                             actual.set_abajo(hijo);
                             hijo.set_padre(actual);
                             
+                            //anulable y posiciones
+                            anulable(actual);
+                            
                             
                             //Creando nodos en el grafo
-                            //struct0 [label="{ F |{1|<here> digito|1}|1}"];
                             int nombre_padre = actual.hashCode(); 
                             int nombre_hijo = hijo.hashCode(); 
-                            result += "    "+nombre_padre+" [label=\"{"+actual.get_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
-                            result += "    "+nombre_hijo+" [label=\"{"+hijo.get_anulable()+"|{"+hijo.get_pos_p()+"|<here>"+hijo.get_lexema()+"|"+hijo.get_pos_p()+"}|}\"];\n";
-                            // enlazando nodos
-                            result += "    "+nombre_padre+" -> "+nombre_hijo+";\n";
-                            
+                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
+                            result += "    "+nombre_hijo+" [label=\"{"+hijo.get_str_anulable()+"|{"+hijo.get_pos_p()+"|<here>"+hijo.get_lexema()+"|"+hijo.get_pos_p()+"}|}\"];\n";
+                            result += "    "+nombre_padre+" -> "+nombre_hijo+";\n";                            
                             expresion.remove(expresion.size() - i + 1);
-                            
-                            
-                            
+
                             
                             break;
                         }// si no solo pasa al siguiente
@@ -210,6 +215,7 @@ public class P1_COMPI1 {
                     else{ // tiene 2 hijos
                         
                         if (expresion.get(expresion.size() - i + 1).enlazable == true && expresion.get(expresion.size() - i + 2).enlazable == true){
+                            
                             //procedemos a enlazar y a eliminar
                             actual.es_enlazable();
                             nodo derecha = expresion.get(expresion.size() - i + 1);
@@ -220,29 +226,24 @@ public class P1_COMPI1 {
                             derecha.set_padre(actual);
                             izquierda.set_padre(actual);
                             
+
+                            //anulable y posiciones
+                            anulable(actual);
                             
-                            
+
                             //Creando nodos en el grafo
-                            //struct0 [label="{ F |{1|<here> digito|1}|1}"];
                             int nombre_padre = actual.hashCode(); 
                             int nombre_derecha = derecha.hashCode(); 
                             int nombre_izquierda = izquierda.hashCode(); 
-                            result += "    "+nombre_padre+" [label=\"{"+actual.get_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
-                            result += "    "+nombre_derecha+" [label=\"{"+derecha.get_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_p()+"}|}\"];\n";
-                            result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_p()+"}|}\"];\n";                            
+                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
+                            result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_p()+"}|}\"];\n";
+                            result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_p()+"}|}\"];\n";                            
                             
                             // enlazando nodos
                             result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
                             result += "    "+nombre_padre+" -> "+nombre_izquierda+";\n";
                             
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+
                             int cantidad = expresion.size();
                             expresion.remove(cantidad  - i + 2);
                             expresion.remove(cantidad  - i + 1);
@@ -266,9 +267,8 @@ public class P1_COMPI1 {
         System.out.println("");
         
     }
-    
-    
-        public static void imprimir_lista(ArrayList<nodo> expre){
+      
+    public static void imprimir_lista(ArrayList<nodo> expre){
         System.out.println("Tamaño: "+ expre.size());
         
         for(nodo node:expre){   
@@ -287,5 +287,37 @@ public class P1_COMPI1 {
         return cantidad;
     }
 
-    
+    public static void anulable(nodo evaluado){ //metodo que guarda el atributo anulable de un nodo
+        String tipo = evaluado.get_tipo();
+        
+        if ( "cadena".equals(tipo) || "id".equals(tipo) || "aceptacion".equals(tipo)){ //Si son hojas, es falso, y como por defecto este atributo es F, lo dejamos así
+            //Anualble = F
+        
+        }else if("asterisco".equals(tipo) || "duda".equals(tipo)){ //Anulable = V
+            evaluado.es_anulable(); 
+            
+        }else if("o_logico".equals(tipo)){ //Anulable = O logico entre los anulables de los hijps
+
+            boolean derecha = evaluado.get_derecha().get_anulable();
+            boolean izquierda = evaluado.get_izquierda().get_anulable();
+            boolean o_logico = derecha || izquierda;
+            if(o_logico){ // si o_logico es true anualble es V, si no lo es se queda F
+                evaluado.es_anulable(); 
+            }
+            
+        }else if("punto".equals(tipo)){ //Anulable = Y logico
+
+            boolean derecha = evaluado.get_derecha().get_anulable();
+            boolean izquierda = evaluado.get_izquierda().get_anulable();
+            boolean y_logico = derecha && izquierda;
+            if(y_logico){ // si y_logico es true anualble es V, si no lo es se queda F
+                evaluado.es_anulable(); 
+            }  
+        }else{ // + anulable si el de abajo es anulable
+            boolean abajo = evaluado.get_abajo().get_anulable();
+            if(abajo){ // si el de abajo es true anualble es V, si no lo es se queda F
+                evaluado.es_anulable(); 
+            }
+        }
+    }  //Este será solo para los padres, porque las hojas ya están, porque sonF por defecto
 }
