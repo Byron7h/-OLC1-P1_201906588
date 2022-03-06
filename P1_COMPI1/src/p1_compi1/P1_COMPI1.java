@@ -73,7 +73,8 @@ public class P1_COMPI1 {
         LinkedList<Token> expresion = new LinkedList<>();
         Token nuevo = new Token("punto",".",1,1);
         expresion.add(nuevo);
-        
+        nuevo = new Token("punto",".",1,1);
+        expresion.add(nuevo);
         nuevo = new Token("asterisco","*",1,1);
         expresion.add(nuevo);
         
@@ -86,7 +87,7 @@ public class P1_COMPI1 {
         nuevo = new Token("llave_c","}",1,1);
         expresion.add(nuevo);
         
-        nuevo = new Token("o_logico","|",1,1);
+        nuevo = new Token("punto",".",1,1);
         expresion.add(nuevo);
         
         nuevo = new Token("cadena","'.'",1,1);
@@ -104,6 +105,8 @@ public class P1_COMPI1 {
         nuevo = new Token("llave_c","}",1,1);
         expresion.add(nuevo);
    
+        nuevo = new Token("id","digito",1,1);
+        expresion.add(nuevo);
 
         arbol(expresion);
 
@@ -178,8 +181,8 @@ public class P1_COMPI1 {
                     
                     // creando el arbol, enlazando nodos
                     nodo actual = expresion.get(0);
-                    nodo derecha = expresion.get(1);
-                    nodo izquierda = expresion.get(2);
+                    nodo derecha = expresion.get(2);
+                    nodo izquierda = expresion.get(1);
                     
                     actual.set_derecha(derecha);
                     actual.set_izquierda(izquierda);
@@ -197,13 +200,22 @@ public class P1_COMPI1 {
                     int nombre_padre = actual.hashCode(); 
                     int nombre_derecha = derecha.hashCode(); 
                     int nombre_izquierda = izquierda.hashCode(); 
-                    result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
-                    result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_p()+"}|}\"];\n";
-                    result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_p()+"}|}\"];\n";                            
-                            
+                    
+                    result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_u()+"}|}\"];\n";
+                    
+                    if ("id".equals(derecha.get_tipo()) ||"cadena".equals(derecha.get_tipo()) ||"aceptacion".equals(derecha.get_tipo())){
+                        result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_u()+"}|}\"];\n";
+                    }
+                    if ("id".equals(izquierda.get_tipo()) ||"cadena".equals(izquierda.get_tipo()) ||"aceptacion".equals(izquierda.get_tipo())){
+                        result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_u()+"}|}\"];\n";
+                    }
+
+       
                     // enlazando nodos en el grafo
-                    result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
+                    
                     result += "    "+nombre_padre+" -> "+nombre_izquierda+";\n";
+                    result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
+                    
 
                     // sacando tokens del arraylist para continuar con las reducciones
                     expresion.remove(2);
@@ -219,7 +231,7 @@ public class P1_COMPI1 {
                 if(actual.enlazable == false){
                     
                     // Vemos la cantidad de hijos del nodo                 
-                    if (actual.get_hijos() == 1){
+                    if (actual.get_hijos() == 1){ //* + ?
                         if (expresion.get(expresion.size() - i + 1).enlazable == true){
                             
                             //procedemos a enlazar y a eliminar
@@ -235,9 +247,16 @@ public class P1_COMPI1 {
                             //Creando nodos en el grafo
                             int nombre_padre = actual.hashCode(); 
                             int nombre_hijo = hijo.hashCode(); 
-                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
-                            result += "    "+nombre_hijo+" [label=\"{"+hijo.get_str_anulable()+"|{"+hijo.get_pos_p()+"|<here>"+hijo.get_lexema()+"|"+hijo.get_pos_p()+"}|}\"];\n";
+                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_u()+"}|}\"];\n";
+                            
+                            // si es una hoja se crea el nodo, ya que no existe, pero si no lo es solo se enlaza
+                            if ("id".equals(hijo.get_tipo()) ||"cadena".equals(hijo.get_tipo()) ||"aceptacion".equals(hijo.get_tipo())){
+                                    result += "    "+nombre_hijo+" [label=\"{"+hijo.get_str_anulable()+"|{"+hijo.get_pos_p()+"|<here>"+hijo.get_lexema()+"|"+hijo.get_pos_u()+"}|}\"];\n";
+                            }
+                            
+                            //enlazando nodos en elgrafo
                             result += "    "+nombre_padre+" -> "+nombre_hijo+";\n";                            
+                            
                             
                             // sacando tokens del arraylist para continuar con las reducciones
                             expresion.remove(expresion.size() - i + 1);
@@ -269,13 +288,20 @@ public class P1_COMPI1 {
                             int nombre_padre = actual.hashCode(); 
                             int nombre_derecha = derecha.hashCode(); 
                             int nombre_izquierda = izquierda.hashCode(); 
-                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_p()+"}|}\"];\n";
-                            result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_p()+"}|}\"];\n";
-                            result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_p()+"}|}\"];\n";                            
+                            result += "    "+nombre_padre+" [label=\"{"+actual.get_str_anulable()+"|{"+actual.get_pos_p()+"|<here>"+actual.get_lexema()+"|"+actual.get_pos_u()+"}|}\"];\n";
                             
-                            // enlazando nodos
-                            result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
+                            if ("id".equals(derecha.get_tipo()) ||"cadena".equals(derecha.get_tipo()) ||"aceptacion".equals(derecha.get_tipo())){
+                                    result += "    "+nombre_derecha+" [label=\"{"+derecha.get_str_anulable()+"|{"+derecha.get_pos_p()+"|<here>"+derecha.get_lexema()+"|"+derecha.get_pos_u()+"}|}\"];\n";
+                            }
+                            if ("id".equals(izquierda.get_tipo()) ||"cadena".equals(izquierda.get_tipo()) ||"aceptacion".equals(izquierda.get_tipo())){
+                                    result += "    "+nombre_izquierda+" [label=\"{"+izquierda.get_str_anulable()+"|{"+izquierda.get_pos_p()+"|<here>"+izquierda.get_lexema()+"|"+izquierda.get_pos_u()+"}|}\"];\n";
+                            }
+
+ 
+                            // enlazando nodos en el grafo
                             result += "    "+nombre_padre+" -> "+nombre_izquierda+";\n";
+                            result += "    "+nombre_padre+" -> "+nombre_derecha+";\n";
+                            
                             
                             // sacando tokens del arraylist para continuar con las reducciones
                             int cantidad = expresion.size();
@@ -399,7 +425,7 @@ public class P1_COMPI1 {
                 enlazado.set_pos_p(primeras);
                 
             }else{ // 
-                enlazado.set_pos_u(enlazado.get_izquierda().get_pos_p());
+                enlazado.set_pos_p(enlazado.get_izquierda().get_pos_p());
             }
             
             
