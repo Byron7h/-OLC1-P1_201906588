@@ -21,7 +21,7 @@ public class P1_COMPI1 {
         
         Integer contador = 1;
      
-        /*
+        
         try {
             Analizador_Lexico lexico = new Analizador_Lexico(
             new BufferedReader(new FileReader("./Prueba.exp"))
@@ -38,11 +38,8 @@ public class P1_COMPI1 {
             System.out.println("\n\n***Expresiones encontradas ");
             for (RegExp con : sintactico.expresiones) {
                 LinkedList<Token> expre = con.expresion;
-                for (Token token_ : expre){
-                System.out.print(token_.lexema.toString());
-                    
-                }
-                System.out.println("---------------");
+                arbol(expre);
+
             }
             
             System.out.println("\n\n***Cadenas encontradas ");
@@ -61,14 +58,16 @@ public class P1_COMPI1 {
             }
             
         } catch (Exception e) {
-        }*/
+        }
+        
+        
         
         //.{digito}."."+{digito}
         //. + {digito} . "." + {digito}
         //."a"."a"+{grupo_1}
         
         
-        
+       /* 
       
         LinkedList<Token> expresion = new LinkedList<>();
         Token nuevo = new Token("punto",".",1,1);
@@ -83,10 +82,10 @@ public class P1_COMPI1 {
         expresion.add(nuevo);
 
         
-        
+        */
     
 
-        arbol(expresion);
+        
 
       
         
@@ -112,6 +111,8 @@ public class P1_COMPI1 {
         // • Paso 1 Agregando la concatenación al estado de aceptación 
         
         Integer contador = 1; //contador para el número de hoja
+        Tabla_siguientes tabla = new Tabla_siguientes();
+        
         
         
         // agegamos la ocncatencación al signo de aceptación
@@ -133,13 +134,16 @@ public class P1_COMPI1 {
                 expresion.add(nuevo_nodo);
                 
                 // Primeras y ultimas posiciones de los nodos hoja
+                // Y agregar sus simbolos a la tabla de siguientes
                 if ("cadena".equals(nuevo_nodo.get_tipo()) || "id".equals(nuevo_nodo.get_tipo()) || "aceptacion".equals(nuevo_nodo.get_tipo())){
                     ArrayList<Integer> lista1 = new ArrayList<>(); //lista en la que se va a buscar e isertar
                     lista1.add(contador);
-                    contador ++ ;
                     
                     nuevo_nodo.set_pos_p(lista1);
-                    nuevo_nodo.set_pos_u(lista1);      
+                    nuevo_nodo.set_pos_u(lista1); 
+                    tabla.agregar(nuevo_nodo.get_lexema(),contador); //simbolo, id(numero)
+                    
+                    contador ++ ;
                 }               
             }
         }
@@ -302,6 +306,7 @@ public class P1_COMPI1 {
         }
         result += "}";
         System.out.println(result);
+        tabla.imprimir();
     }
     
     public static void imprimir_lista(LinkedList<Token> expre){
@@ -428,5 +433,14 @@ public class P1_COMPI1 {
         }
         
     }
+    
+    public static String cadenas (String cadena){
+        // Vamos a recibir un String "x"
+        // y vamos aretornar un string 'x'
+        
+        int tamano = cadena.length();
+        String nueva = cadena.substring(1,tamano-1);
 
+        return "'"+nueva+"'";
+    } 
 }

@@ -12,11 +12,19 @@ public class Token {
         this.lexema = lexema;
         this.linea = linea;
         this.columna = columna;
+        
+        if ( "cadena".equals(tipo) ){         
+            int tamano = lexema.length();
+            String nueva = lexema.substring(1,tamano-1);
+            this.lexema = "'"+nueva+"'";
+        }
+        
     }
 
     public Token(String tipo, String lexema) {
         this.tipo = tipo;
         this.lexema = lexema;
+        
     }
     
     public String show() { //retorna una cadena de informacion 
