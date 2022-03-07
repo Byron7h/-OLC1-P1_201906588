@@ -159,7 +159,7 @@ public class P1_COMPI1 {
         while (expresion.size() != 1){
             for (int i = 1; i < expresion.size(); i++){
                 
-                if (expresion.size() == 3){
+                if (expresion.size() == 3){ // última iteración
                     
                     // creando el arbol, enlazando nodos
                     nodo actual = expresion.get(0);
@@ -201,7 +201,14 @@ public class P1_COMPI1 {
 
                     // sacando tokens del arraylist para continuar con las reducciones
                     expresion.remove(2);
-                    expresion.remove(1);             
+                    expresion.remove(1);      
+                    
+                                                //Llenando tabla de siguientes
+                    if ("punto".equals(actual.get_tipo())){
+                        tabla.agregar_siguientes(izquierda.get_pos_u(), derecha.get_pos_p());
+                    }
+                    
+                    
                     break;
                 }
                 
@@ -242,6 +249,12 @@ public class P1_COMPI1 {
                             
                             // sacando tokens del arraylist para continuar con las reducciones
                             expresion.remove(expresion.size() - i + 1);
+                            
+                            //Llenando tabla de siguientes
+                            if ("asterisco".equals(actual.get_tipo()) || "mas".equals(actual.get_tipo())){
+                                tabla.agregar_siguientes(actual.get_pos_u(), actual.get_pos_p());
+                            }
+                            
 
                             
                             break;
@@ -259,7 +272,7 @@ public class P1_COMPI1 {
                             actual.set_derecha(derecha);
                             actual.set_izquierda(izquierda);
                             derecha.set_padre(actual);
-                            //izquierda.set_padre(actual);
+                            izquierda.set_padre(actual);
                             
 
                             //anulable y posiciones
@@ -290,6 +303,11 @@ public class P1_COMPI1 {
                                     + "      "+nombre_izquierda+"; "+nombre_derecha+"; }\n";
 
                             
+                            
+                            //Llenando tabla de siguientes
+                            if ("punto".equals(actual.get_tipo())){
+                                tabla.agregar_siguientes(izquierda.get_pos_u(), derecha.get_pos_p());
+                            }
                             
                             
                             // sacando tokens del arraylist para continuar con las reducciones
