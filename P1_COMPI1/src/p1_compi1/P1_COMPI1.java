@@ -113,6 +113,8 @@ public class P1_COMPI1 {
         Integer contador = 1; //contador para el número de hoja
         Tabla_siguientes tabla = new Tabla_siguientes();
         
+        ArrayList<Integer> raiz = new ArrayList<>(); // Lista para guardar la primera posicion de la raiz del atbol, para la tabla de siguientes
+        
         
         
         // agegamos la ocncatencación al signo de aceptación
@@ -208,6 +210,9 @@ public class P1_COMPI1 {
                         tabla.agregar_siguientes(izquierda.get_pos_u(), derecha.get_pos_p());
                     }
                     
+                    
+                    // Guardando la primera posicion de la raiz
+                    raiz = actual.get_pos_p();
                     
                     break;
                 }
@@ -325,6 +330,12 @@ public class P1_COMPI1 {
         result += "}";
         System.out.println(result);
         tabla.imprimir();
+        Tabla_estados tabla_2 = new Tabla_estados(raiz, tabla);
+        tabla_2.generar_tabla();
+        System.out.println("imprimir");
+        tabla_2.imprimir();
+        
+        
     }
     
     public static void imprimir_lista(LinkedList<Token> expre){
