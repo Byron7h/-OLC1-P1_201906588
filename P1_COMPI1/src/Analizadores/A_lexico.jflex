@@ -25,6 +25,7 @@ import java.util.LinkedList;
 
 letra = [a-zA-Z]
 numero = [0-9]
+simbolos_intervalo = ("!"|"#"|"$"|"%"|"&"|"("|")"|"*"|"+"|","|"-"|"."|"/"|":"|"<"|"="|">"|"?"|"@"|"["|"]"|"^"|"_"|"{"|"|"|"}")
 
 palabra_reservada = "CONJ"
 delimitadores = ["%%"]+
@@ -32,10 +33,9 @@ comentario_unilinea = ["//"]+[^\n]*[\n]
 comentario_multilinea = "<!"[^"!>"]*"!>"
 cadena = [\"][^\n\"]*[\"] | [\'][^\n\']*[\']
 asignacion = "->"
-conjunto_1 = ({letra}"~"{letra}|{numero}"~"{numero})
-conjunto_2 = ({numero}(","{numero})*|{letra}(","{letra})*)
-conjunto_3 = [^\n\"]"~"[^\n\"]
+conjunto_1 = ({letra}"~"{letra}|{numero}"~"{numero}|{simbolos_intervalo}"~"{simbolos_intervalo})
 id = {letra}({letra}|_|{numero})*
+digito = {numero}({numero})*
 
 
 %%
@@ -47,7 +47,17 @@ id = {letra}({letra}|_|{numero})*
                     return new Symbol(Simbolos.punto_y_coma, yycolumn, yyline, yytext());
 
                     }
-<YYINITIAL> "{"     {
+
+<YYINITIAL> ","     {
+                    System.out.println("Reconocio token:<coma> lexema:"+yytext());
+                    Token tmp= new Token("coma", yytext().toString(), yyline, yycolumn );
+                    tokens.add(tmp); 
+                    return new Symbol(Simbolos.coma, yycolumn, yyline, yytext());
+
+                    }
+
+
+<YYINITIAL> "{"      {
                     System.out.println("Reconocio token:<llave_a> lexema:"+yytext());
                     Token tmp= new Token("llave_a", yytext(), yyline, yycolumn );
                     tokens.add(tmp); 
@@ -111,6 +121,16 @@ id = {letra}({letra}|_|{numero})*
                     return new Symbol(Simbolos.palabra_reservada, yycolumn, yyline, yytext());
                     }
 
+<YYINITIAL> {letra}    {
+                    System.out.println("Reconocio token:<letra> lexema:"+yytext());
+                    return new Symbol(Simbolos.letra, yycolumn, yyline, yytext());
+                    }
+
+<YYINITIAL> {digito}    {
+                    System.out.println("Reconocio token:<digito> lexema:"+yytext());
+                    return new Symbol(Simbolos.digito, yycolumn, yyline, yytext());
+                    }
+
 <YYINITIAL> {delimitadores}    {
                     System.out.println("Reconocio token:<delimitadores> lexema:"+yytext());
                     return new Symbol(Simbolos.delimitadores, yycolumn, yyline, yytext());
@@ -147,19 +167,6 @@ id = {letra}({letra}|_|{numero})*
                     return new Symbol(Simbolos.conjunto, yycolumn, yyline, yytext());
                     }
 
-
-<YYINITIAL> {conjunto_2}    {
-                    System.out.println("Reconocio token:<conjunto2> lexema:"+yytext());
-                    return new Symbol(Simbolos.conjunto, yycolumn, yyline, yytext());
-                    }
-
-<YYINITIAL> {conjunto_3}    {
-                    System.out.println("Reconocio token:<conjunto3> lexema:"+yytext()); 
-                    return new Symbol(Simbolos.conjunto, yycolumn, yyline, yytext());
-
-                    }
-
-
 <YYINITIAL> {id}    {
                     System.out.println("Reconocio token:<id> lexema:"+yytext());
                     Token tmp = new Token("id", yytext(), yyline, yycolumn );
@@ -184,7 +191,7 @@ id = {letra}({letra}|_|{numero})*
             
 
 .                {  
-                     System.out.println("Reconocio token:<error> lexema:"+yytext());
+                    System.out.println("Reconocio token:<error> lexema:"+yytext());
                     /*tipo, lexema, descripcion, fila, columna; lo agtegamos a la lista de errores*/
                     TError tmp= new TError("Lexico", yytext(),"Caracter no reconocido", yyline, yycolumn );
                     errores.add(tmp);           

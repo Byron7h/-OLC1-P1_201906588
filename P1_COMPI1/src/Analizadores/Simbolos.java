@@ -11,6 +11,7 @@ public class Simbolos {
   public static final int comentario_multilinea = 5;
   public static final int cadena = 6;
   public static final int conjunto = 9;
+  public static final int coma = 19;
   public static final int llave_c = 12;
   public static final int llave_a = 11;
   public static final int comentario_unilinea = 4;
@@ -18,7 +19,9 @@ public class Simbolos {
   public static final int asignacion = 7;
   public static final int dos_puntos = 14;
   public static final int punto = 13;
+  public static final int digito = 21;
   public static final int EOF = 0;
+  public static final int letra = 20;
   public static final int duda = 18;
   public static final int id = 8;
   public static final int error = 1;
@@ -46,7 +49,10 @@ public class Simbolos {
   "asterisco",
   "o_logico",
   "mas",
-  "duda"
+  "duda",
+  "coma",
+  "letra",
+  "digito"
   };
 }
 

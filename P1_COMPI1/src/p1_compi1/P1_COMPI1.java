@@ -29,6 +29,16 @@ public class P1_COMPI1 {
             Analizador_sintactico sintactico = new Analizador_sintactico(lexico);
             sintactico.parse(); //funcion que nos lee
             
+            
+            System.out.println("\n\n***Reporte de errores encontrados ");
+            for (TError errore : Analizador_Lexico.errores) {
+                System.out.println(errore.show());
+            }
+            for (TError errore : sintactico.errores) {
+                System.out.println(errore.show());
+            }
+            
+            
             System.out.println("\n\n***Conjuntos encontrados ");
             for (conjunto con : sintactico.conjuntos) {
                 
@@ -38,7 +48,7 @@ public class P1_COMPI1 {
             System.out.println("\n\n***Expresiones encontradas ");
             for (RegExp con : sintactico.expresiones) {
                 LinkedList<Token> expre = con.expresion;
-                arbol(expre);
+                //arbol(expre);
 
             }
             
@@ -49,13 +59,7 @@ public class P1_COMPI1 {
             
             
             
-            System.out.println("\n\n***Reporte de errores encontrados ");
-            for (TError errore : Analizador_Lexico.errores) {
-                System.out.println(errore.show());
-            }
-            for (TError errore : sintactico.errores) {
-                System.out.println(errore.show());
-            }
+
             
         } catch (Exception e) {
         }

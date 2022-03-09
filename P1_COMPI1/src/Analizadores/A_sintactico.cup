@@ -77,15 +77,18 @@ terminal asterisco;
 terminal o_logico;
 terminal mas;
 terminal duda;
+terminal coma;
+terminal letra;
+terminal digito;
 
-non terminal INICIO, E;
+non terminal INICIO, E, A, C, BLOQUE;
 start with INICIO;
 
 INICIO::= llave_a INICIO llave_c  {:System.out.println("Fin de analisis de entrada");:}
         
 
-        |palabra_reservada dos_puntos id:a asignacion conjunto:b punto_y_coma INICIO {:
-                                        conjunto nuevo = new conjunto("cadena", a.toString(), b.toString());
+        |palabra_reservada dos_puntos id:a asignacion C:k punto_y_coma INICIO {:
+                                        conjunto nuevo = new conjunto("cadena", a.toString(), k.toString());
                                         conjuntos.add(nuevo);
                                         :}
 
@@ -144,4 +147,17 @@ E::= punto E E
     |duda E
     |llave_a id llave_c
     |cadena   
+;
+
+C::= conjunto :j   {:  RESULT = j ;  :}              
+    |A:h {:  RESULT = h ; :}  
+;
+
+A::= A:h coma:f BLOQUE:q {:  RESULT = h.toString()+f.toString()+q.toString() ;:}              
+    |BLOQUE:s {:  RESULT = s ; :}     
+;
+
+BLOQUE::= cadena: c {:  RESULT = c;  :}               
+    |letra:l {:  RESULT = l;  :}
+    |digito:d {:  RESULT = d;  :}
 ;
