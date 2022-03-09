@@ -32,12 +32,12 @@ public class Tabla_estados {
         public void generar_tabla(Estado primero){
             //1 identificar raiz
 
-            System.out.println("RAIZ -> "+primero.get_posiciones());
-            
+            //System.out.println("RAIZ -> "+primero.get_posiciones());
+            /*
             for ( int num : primero.get_posiciones()){                
                 System.out.println("    "+num+" -> " + simbolo_en_tabla(num) +" -> " + siguientes_en_tabla(num));
             }
-            
+            */
             ArrayList<String> simbolos = simbolos_en_estado(primero.get_posiciones());
             ArrayList<Integer> posiciones = primero.get_posiciones();
             System.out.println("Simbolos de estado "+ simbolos);
@@ -54,7 +54,7 @@ public class Tabla_estados {
                         } 
                     }
                     // acá ya tenemos juntas todas las siguientes posiciones del mismo simbolo en este estado  
-                    System.out.println(posiciones_estado);
+                    //System.out.println(posiciones_estado);
                 
                     //ahora vemos si ya tenemos un estado con esas posiciones guardado
                     Estado siguiente_estado = new Estado(contador, posiciones_estado);
@@ -69,18 +69,15 @@ public class Tabla_estados {
                         ArrayList<Integer> dos = posiciones_estado;
                         Collections.sort(dos);
                         String s_dos = dos.toString();
-                        
-                        
-                        
+
                         if (s_uno.equals(s_dos)){
-                            System.out.println("Encotró u estado igual");
+                            //System.out.println("Encotró u estado igual");
                             siguiente_estado = estado_actual; 
                             encontrado = true;
                             break;
                         }
                     }
-                
-                    
+
                     for (Estado estado_actual : pendientes){ // si encuentra uno que ya esté guardado lo regresará
                         ArrayList<Integer> uno = estado_actual.get_posiciones();
                         Collections.sort(uno);
@@ -89,43 +86,31 @@ public class Tabla_estados {
                         ArrayList<Integer> dos = posiciones_estado;
                         Collections.sort(dos);
                         String s_dos = dos.toString();
-                        
-                        
-                        
                         if (s_uno.equals(s_dos)){
-                            System.out.println("Encotró u estado igual");
+                            //System.out.println("Encotró u estado igual");
                             siguiente_estado = estado_actual; 
                             encontrado = true;
                             break;
                         }
                     }
-                    
-                    
-                    
-                    
                     if (encontrado){ //hacemos transicion
                         transicion nueva = new transicion(simbolo, siguiente_estado);
-                        primero.set_transicion(nueva);
-                         
+                        primero.set_transicion(nueva);                        
                     }else{ // insertamos el nuevo nodo, aumntamos el contador y hacemos transiciones                       
                         pendientes.add(siguiente_estado);
                         contador ++; 
                         transicion nueva = new transicion(simbolo, siguiente_estado);
-                        primero.set_transicion(nueva);
-                        
+                        primero.set_transicion(nueva);                       
                     }
-
-               
                  }
             }
-            
-            System.out.println("Lega hasta el final");
+            //System.out.println("Lega hasta el final");
             finales.add(primero);
             pendientes.remove(primero);
-            imprimir();
+            //imprimir();
             if(pendientes.size() > 0){
                 if(pendientes.get(0).get_posiciones().isEmpty()){
-                    System.out.println("Posiciones sigueintes vacias");
+                    //System.out.println("Posiciones sigueintes vacias");
                 }else{
                     generar_tabla(pendientes.get(0));
                 }

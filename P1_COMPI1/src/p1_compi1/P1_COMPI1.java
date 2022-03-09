@@ -332,7 +332,6 @@ public class P1_COMPI1 {
         tabla.imprimir();
         Tabla_estados tabla_2 = new Tabla_estados(raiz, tabla);
         //tabla_2.generar_tabla();
-        System.out.println("imprimir");
         tabla_2.imprimir();
         
         
