@@ -22,19 +22,17 @@ public class Tabla_estados {
             this.tabla = tabla;
             Estado nuevo = new Estado (contador, raiz); // Nuestro estado inicial
             pendientes.add(nuevo);
+            contador = contador +1;
+            generar_tabla(pendientes.get(0));
+            
             
         }
         
         
-        public void generar_tabla(){
+        public void generar_tabla(Estado primero){
             //1 identificar raiz
-            int contagor_general = 1;
-            
-            while (contagor_general!=0){
-            
-            Estado primero = pendientes.get(0);
+
             System.out.println("RAIZ -> "+primero.get_posiciones());
-            int contador_estados = 1; 
             
             for ( int num : primero.get_posiciones()){                
                 System.out.println("    "+num+" -> " + simbolo_en_tabla(num) +" -> " + siguientes_en_tabla(num));
@@ -42,22 +40,11 @@ public class Tabla_estados {
             
             ArrayList<String> simbolos = simbolos_en_estado(primero.get_posiciones());
             ArrayList<Integer> posiciones = primero.get_posiciones();
-            int contador_interno = 0; 
+            System.out.println("Simbolos de estado "+ simbolos);
             for (String simbolo: simbolos){  //acá va a desarrollarse todo el proceso 
-                 contador_interno ++;
+                 
                  if ("#".equals(simbolo)){
                      primero.estado_aceptacion();
-                     
-                    if ( contador_interno == simbolos.size()){
-                        finales.add(primero);
-                        pendientes.remove(0);
-                        contagor_general--;
-                        
-                        
-                    }
-                     
-                     
-                     
                  }else{
                     ArrayList<Integer> posiciones_estado = new ArrayList<>();
                     for (int i = 0; i < posiciones.size(); i++){
@@ -70,43 +57,83 @@ public class Tabla_estados {
                     System.out.println(posiciones_estado);
                 
                     //ahora vemos si ya tenemos un estado con esas posiciones guardado
-                    Estado siguiente_estado = new Estado(contador_estados, posiciones_estado);
+                    Estado siguiente_estado = new Estado(contador, posiciones_estado);
                     boolean encontrado = false;
                 
                     // buscamos si este estado ya existe
                     for (Estado estado_actual : finales){ // si encuentra uno que ya esté guardado lo regresará
-                        if (estado_actual.get_posiciones() == posiciones_estado){
+                        ArrayList<Integer> uno = estado_actual.get_posiciones();
+                        Collections.sort(uno);
+                        String s_uno = uno.toString();
+                        
+                        ArrayList<Integer> dos = posiciones_estado;
+                        Collections.sort(dos);
+                        String s_dos = dos.toString();
+                        
+                        
+                        
+                        if (s_uno.equals(s_dos)){
+                            System.out.println("Encotró u estado igual");
                             siguiente_estado = estado_actual; 
                             encontrado = true;
                             break;
                         }
                     }
                 
+                    
+                    for (Estado estado_actual : pendientes){ // si encuentra uno que ya esté guardado lo regresará
+                        ArrayList<Integer> uno = estado_actual.get_posiciones();
+                        Collections.sort(uno);
+                        String s_uno = uno.toString();
+                        
+                        ArrayList<Integer> dos = posiciones_estado;
+                        Collections.sort(dos);
+                        String s_dos = dos.toString();
+                        
+                        
+                        
+                        if (s_uno.equals(s_dos)){
+                            System.out.println("Encotró u estado igual");
+                            siguiente_estado = estado_actual; 
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                    
+                    
+                    
+                    
                     if (encontrado){ //hacemos transicion
                         transicion nueva = new transicion(simbolo, siguiente_estado);
                         primero.set_transicion(nueva);
                          
                     }else{ // insertamos el nuevo nodo, aumntamos el contador y hacemos transiciones                       
                         pendientes.add(siguiente_estado);
-                        contador_estados ++; 
+                        contador ++; 
                         transicion nueva = new transicion(simbolo, siguiente_estado);
                         primero.set_transicion(nueva);
-                        contagor_general ++;
                         
                     }
-                    
-                    if ( contador_interno == simbolos.size()){
-                        finales.add(primero);
-                        pendientes.remove(0);
-                        contagor_general--;
-                        
-                    }
+
                
                  }
-               }
-            
-                System.out.println(contagor_general);
             }
+            
+            System.out.println("Lega hasta el final");
+            finales.add(primero);
+            pendientes.remove(primero);
+            imprimir();
+            if(pendientes.size() > 0){
+                if(pendientes.get(0).get_posiciones().isEmpty()){
+                    System.out.println("Posiciones sigueintes vacias");
+                }else{
+                    generar_tabla(pendientes.get(0));
+                }
+            }else{
+                System.out.println("Por fin terminó este suplicio");
+            }
+               
+            
         }
             
         
@@ -188,33 +215,7 @@ public class Tabla_estados {
         System.out.println(data);
         
     }
-    
-    public ArrayList<Integer> posiciones_estado(Estado estado, ArrayList<Integer> lista_posiciones, String simbolo){
-        
-        // encontramos todas las posiciones que tengan ese simbolo, y unimos los siguientes 
-        // que tienen en la tabla de siguientes en un array, y lo retornamos
-        
-        // encontrando posiciones y guardando 
-        ArrayList<Integer> auxiliar = new ArrayList<>();
-        ArrayList<Integer> auxiliar_2 = new ArrayList<>();
-        for(int actual : lista_posiciones){
-            if ( simbolo.equals(simbolo_en_tabla(actual))){
-                auxiliar = unir_posiciones(auxiliar, siguientes_en_tabla(actual));
-            }else{
-                
-                
-                
-                
-                
-                auxiliar_2.add(actual);
-            }
-        }
-        estado.set_posiciones(auxiliar_2); // guardamos las que quedan en el nodo
-        System.out.println(auxiliar);
-        System.out.println(auxiliar_2);
-        return auxiliar ; //retornamos las que sí coincidieron
-        
-    }
+
     
 // devolverá un array con lños simbolos diferentes que encuentre    
    public ArrayList<String> simbolos_en_estado (ArrayList<Integer> lista1){
