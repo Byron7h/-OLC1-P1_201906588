@@ -11,7 +11,7 @@ import java.util.Collections;
 public class Tabla_estados {
     
         ArrayList<Estado> pendientes = new ArrayList<>(); // lista de estados
-        ArrayList<Estado> finales = new ArrayList<>(); // lista de estados
+        public ArrayList<Estado> finales = new ArrayList<>(); // lista de estados
     
         Tabla_siguientes tabla ;
         int contador = 0;
@@ -188,6 +188,9 @@ public class Tabla_estados {
         data += "Estados\n";
         
         for (Estado actual : finales) {
+            if(actual.get_aceptacion()){
+                data += "*";
+            }
             data += "S" + actual.get_id()+"\n";
             ArrayList<transicion> transiciones = actual.get_transiciones();
             for (transicion trans : transiciones){
@@ -219,7 +222,38 @@ public class Tabla_estados {
             return auxiliar;  
     }  
         
+    public void generar_grafo(){
+                                    // Acá ya podemos colocarle código html, para los reportes
+        String data = "digraph finite_state_machine {\n" +
+"           fontname=\"Helvetica,Arial,sans-serif\"\n" +
+"           node [fontname=\"Helvetica,Arial,sans-serif\"]\n" +
+"           edge [fontname=\"Helvetica,Arial,sans-serif\"]\n" +
+"           rankdir=LR;";
+
         
+        for (Estado actual : finales) {
+            if(actual.get_aceptacion()){ //estados de aceptacion
+                data += "    node [shape = doublecircle]; "+actual.get_id()+";\n";
+            }                                            
+        }
+        data += "    node [shape = circle];";
+        for (Estado actual : finales) {
+            ArrayList<transicion> transiciones = actual.get_transiciones();
+            for (transicion trans : transiciones){
+                data += "   "+actual.get_id() + " -> " + trans.get_apuntado() +" [label = \""+trans.get_simbolo()+"\"];\n";
+ 
+            }
+            data += "\n" ;                                              
+
+        }
+        data += "}" ; 
+        System.out.println(data);
+        
+        
+        
+    
+    
+    }    
         
         
     

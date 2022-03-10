@@ -60,7 +60,40 @@ public class P1_COMPI1 {
             
             System.out.println("\n\n***Cadenas encontradas ");
             for (cadena con : sintactico.cadenas) {
-                System.out.println(con.show());
+                //buscamos el id de la exp regular en los id de los automatas genrados
+                String identificador = con.get_id();
+                String cadena_1 = con.get_cadena();
+                //System.out.println(cadena_1);
+                //System.out.println(cadena_1);
+                cadena_1 = cadena_1.substring(1,cadena_1.length()-1 );
+                //System.out.println(cadena_1);
+                //System.out.println(cadena_1);
+                
+                
+                
+                for (Automata automata: Automatas){
+                    if(automata.get_id().equals(identificador)){
+                        ArrayList<Estado> nuevo = automata.get_tabla_estados().finales; 
+                        for (Estado fina:nuevo){
+                            if (fina.get_id()==0){
+                                char[] conjunto = cadena_1.toCharArray();
+                                //System.out.println(conjunto);
+
+                                //validar_cadena( fina, conjunto , con );
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                
+            
+                
+                
+                
+                
+                
+                //System.out.println(con.show());
             }
             
             
@@ -339,9 +372,10 @@ public class P1_COMPI1 {
         }
         result += "}";
         System.out.println(result); 
-        //tabla.imprimir();
+        tabla.imprimir();
         Tabla_estados tabla_2 = new Tabla_estados(raiz, tabla);
-        tabla_2.imprimir();       
+        tabla_2.imprimir();
+        tabla_2.generar_grafo();
         Automata nuevo_automata = new Automata(id,tabla,tabla_2);
         Automatas.add(nuevo_automata);
  
@@ -482,44 +516,60 @@ public class P1_COMPI1 {
         return "'"+nueva+"'";
     } 
     
-    public static void validar_cadena( Estado actual, String cadena_ , cadena procesada ){
+    public static void validar_cadena( Estado actual, char[] cadena_ , cadena procesada ){
         
-        if(cadena_.isEmpty()){ // si la cadena está vacía, o está en un estado de aceptación y es válida, o está en un estado cualquiera y es no válida
-                    
-            if (actual.get_aceptacion()){ // si estamos en un estado de aceptación, la cadena es válida
-                procesada.cadena_aceptada();
-                System.out.println("cadena: " + procesada.get_cadena() +" es " + procesada.get_valida() );
-            }else{ // si no lo es quiere decir que la cadena no es válida, como la cadena tiene ese estado por defecto la dejamos igual
-                System.out.println("cadena: " + procesada.get_cadena() +" es " + procesada.get_valida() );
-            }
-           
-        }else{
-            
-            boolean entro = false; //temino que nos servirá para validar si llegó a alguna transicion
-            
-            
-            // encontramos el estado actual y obtenemos 
+        System.out.println(         cadena_);
+        System.out.println(actual.get_id());
+        
+        Estado estado = actual;
+        int posicion = 0;
+        int tamano_cadena = cadena_.length;
+        boolean entro = false;
+        
+        while (posicion+1 <tamano_cadena){
+
             ArrayList<transicion> transiciones = actual.get_transiciones();
             for (transicion trans_actual : transiciones){
                 
                 String simbolo = trans_actual.get_simbolo();
+                System.out.println("simbol "+simbolo);
                 // pueden venir o una cadena o un identicadores o cadenas
-                
-                
-                
+ 
                 if (simbolo.endsWith("'")){ // • camino para una cadena
-                    if (cadena_.length()  >= simbolo.length()){ // para poder ingresar el simbolo debe ser de igual o menor tañano
-                        
-                        String auxiliar = cadena_.substring(0,cadena_.length());
-                        if (auxiliar.equals(simbolo)){ //si son iguales procedemos hacer la transicion
-                            cadena_ = cadena_.substring(cadena_.length());
-                            entro = true;
-                            actual = trans_actual.get_estado_apuntado();
-                        }   
-                    }
-
-                }else{ // es un identificador, un conjunto, ahora hay que identificar si se trata de un intérvalo o una lsita
+                    System.out.println("entro a cadena");
                     
+                    String au = simbolo.substring(1,simbolo.length()-1);
+                    System.out.println(simbolo +" "+au);                  
+                    char[] simbol = au.toCharArray();
+                    
+                    if (cadena_.length  >= simbol.length){ // para poder ingresar el simbolo debe ser de igual o menor tañano                       
+                        boolean es_igual = true;                      
+                        for (int i = 0; i<simbol.length; i++){ //verificamos que sea igual
+                            if (simbol[i]!=cadena_[i]){
+                                es_igual = false;
+                                break;
+                            }
+                        }                      
+                        if (es_igual){
+                            posicion = posicion + simbol.length; //avanzamos
+                            entro = true;
+                            if ( posicion+1 == tamano_cadena && estado.get_aceptacion()){
+                                procesada.cadena_aceptada();
+                                System.out.println("cadena: " + procesada.get_cadena() +" es " + procesada.get_valida() );
+                                break;
+                            }else if(posicion+1 == tamano_cadena && estado.get_aceptacion()== false){
+                                 System.out.println("cadena 1 : " + procesada.get_cadena() +" es " + procesada.get_valida() );
+                                 posicion = tamano_cadena; //para que salga del while
+                                 break;                               
+                            }else{
+                                estado = trans_actual.get_estado_apuntado();
+                                break;
+                            }
+                        }      
+                    }  
+                    
+                }else{ // es un identificador, un conjunto, ahora hay que identificar si se trata de un intérvalo o una lsita
+                    System.out.println("entro a id");
                     // encontramos su contenido
                     String contenido = "";
                     for ( conjunto conjunto_actual : Conjuntos){
@@ -534,61 +584,84 @@ public class P1_COMPI1 {
                         
                         //convirtiendo la cadena en un array de chars
                         char[] Caracteres = contenido.toCharArray();
-                        int mayor = Caracteres[0];
-                        int menor = Caracteres[2];
-                        int evaluado = cadena_.charAt(0);
+                        int mayor = Caracteres[2];
+                        int menor = Caracteres[0];
+                        int evaluado = cadena_[posicion];
                         
                         if (evaluado>= menor && evaluado>= mayor){ // es que pertenece a este conjunto
-                            cadena_ = cadena_.substring(1);
+                            posicion ++; //avanzamos una posicion en la entrada
                             entro = true;
-                            actual = trans_actual.get_estado_apuntado();
-                            // si llegó hasta acá se puede hacer la transición
-                            //••••••• esto queda pendiente
-
-                        }
-
-                    }else{ // conjuntos lista
-                        
-                        //convirtiendo la lista en un array
-                        String[] lista = contenido.split(",");
-                        String aux = cadena_.substring(0,1);
-                        
-                        for(String posicion_actual : lista){
-                            if(posicion_actual.equals(aux )){
-                                cadena_ = cadena_.substring(1);
-                                entro = true;
-                                actual = trans_actual.get_estado_apuntado();
+                            if ( posicion + 1 == tamano_cadena && estado.get_aceptacion()){
+                                    procesada.cadena_aceptada();
+                                    System.out.println("cadena: " + procesada.get_cadena() +" es " + procesada.get_valida() );
+                                    break;
+                            }else if(posicion + 1 == tamano_cadena && estado.get_aceptacion()== false){
+                                    System.out.println("cadena 2 : " + procesada.get_cadena() +" es " + procesada.get_valida() );
+                                    posicion = tamano_cadena; //para que salga del while
+                                    break;
+                                    
+                            }else{
+                                estado = trans_actual.get_estado_apuntado();
                                 break;
                             }
                         }
-                    }
-                    
-                          
-                    
-                    
-                    
-                
-                }
-            
-            
-            
-            }
-            
-            if(entro){
-                validar_cadena(actual, cadena_ ,procesada );
 
-            }else{
-                System.out.println("cadena: " + procesada.get_cadena() +" es " + procesada.get_valida() );
+                    }else{ // conjuntos lista, acá no vamos a poder validar cadenas, solo simbolos sueltos
+                        
+                        //convirtiendo la lista en un array
+                        String[] lista = contenido.split(",");
+                        char aux = cadena_[0];
+                        
+                        for(int i = 0; i< lista.length; i++){
+                            if(lista[i].contains("'")){
+                                 // se ignora
+                            }else{ //vemos si lo contiene
+                                if(lista[i].charAt(0)==aux){
+                                    posicion ++; //avanzamos en la entrada
+                                    entro = true;
+                                    //entro = true;
+                                    //actual = trans_actual.get_estado_apuntado();
+
+                                    if ( posicion+1 == tamano_cadena && estado.get_aceptacion()){
+                                        procesada.cadena_aceptada();
+                                        System.out.println("cadena: " + procesada.get_cadena() +" es " + procesada.get_valida() );
+                                        break;
+                                        
+                                    }else if(posicion+1 == tamano_cadena && estado.get_aceptacion()== false){
+                                        System.out.println("cadena 3 : " + procesada.get_cadena() +" es " + procesada.get_valida() );
+                                        posicion = tamano_cadena; //para que salga del while
+                                        break;
+                                    }else {
+                                        estado = trans_actual.get_estado_apuntado();
+                                        break;
+                                    }
+                                    
+                                }
+                             
+                            } 
+                        }
+                    }
+                }        
             }
             
+            //entro vuelve a iterar, porque estamos seguros que no es aceptacion, si no estó a ningun estado 
+            //quiere decir que o ya no hay transiciones o que no entró a ninguna
             
-        
-        
-        }
+            if("Aceptada".equals(procesada.get_valida())){ // es que se aceptó, salgrá del while
+            
+            
+            }else if(entro) { // si no es aceptada, pero sí entro, no pasa nada, va a entrar de nuevo al while si nuestras validaciones lo permiten
+                
+            
+            }else{  //no entro a ningun estado, ya sea por que ya no tenía transiciones o porque no podía irse por ninguna, cadena no valida
+                System.out.println("cadena 4 : " + procesada.get_cadena() +" es " + procesada.get_valida() );
+                posicion = tamano_cadena; //para que salga del while                      
+            }
+        } 
+    }  
+    
+    public void grafo_automata(Tabla_estados tabla){
     
     
-    
-    }
-    
-    
+    } 
 }

@@ -10,6 +10,14 @@ public class cadena {
         this.cadena = cadena; // cadena
     }
     
+    public String get_cadena(){
+        return cadena;
+    }
+    
+    public String get_id(){
+        return id;
+    }
+    
     public String get_valida(){
         return valida;   
     }
