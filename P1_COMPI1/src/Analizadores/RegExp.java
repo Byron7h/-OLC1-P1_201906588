@@ -11,6 +11,11 @@ public class RegExp {
         this.id= id;
         this.expresion = expresion;
     }
+    
+    public String get_id(){
+        return id;
+    }
+    
     /*
     public String show() { //retorna una cadena de informacion 
                             // Acá ya podemos colocarle código html, 

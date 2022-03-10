@@ -40,7 +40,7 @@ public class Tabla_estados {
             */
             ArrayList<String> simbolos = simbolos_en_estado(primero.get_posiciones());
             ArrayList<Integer> posiciones = primero.get_posiciones();
-            System.out.println("Simbolos de estado "+ simbolos);
+            //System.out.println("Simbolos de estado "+ simbolos);
             for (String simbolo: simbolos){  //acá va a desarrollarse todo el proceso 
                  
                  if ("#".equals(simbolo)){
@@ -115,7 +115,7 @@ public class Tabla_estados {
                     generar_tabla(pendientes.get(0));
                 }
             }else{
-                System.out.println("Por fin terminó este suplicio");
+                //System.out.println("Por fin terminó este suplicio");
             }
                
             

@@ -44,6 +44,9 @@ public class Estado {
     public void estado_aceptacion(){
         aceptacion = true;
     }
+    public boolean get_aceptacion(){
+        return aceptacion;
+    }
             
   
     

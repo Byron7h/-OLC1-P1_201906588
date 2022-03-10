@@ -9,6 +9,16 @@ public class conjunto {
         this.id = id;
         this.contenido = contenido;
     }
+    
+    
+    public String get_id(){
+        return id;
+    }
+    
+    public String get_contenido(){
+        return contenido;
+    }
+    
 
     public String show() { //retorna una cadena de informacion 
                             // Acá ya podemos colocarle código html, 

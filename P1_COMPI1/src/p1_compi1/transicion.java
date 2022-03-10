@@ -18,4 +18,7 @@ public class transicion {
         return apuntado.get_id();
     }
     
+    public Estado get_estado_apuntado(){
+        return apuntado;
+    }
 }
