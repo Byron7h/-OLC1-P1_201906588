@@ -19,23 +19,12 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Comparator;
 
-public class P1_COMPI1 {
-    
+
+public class Operador {
     static ArrayList<Automata> Automatas = new ArrayList<>();
     static LinkedList<conjunto> Conjuntos = new LinkedList<>();
     
-
-    public static void main(String[] args) {
-        
-        Ventana superior = new Ventana ();
-        superior.setVisible(true);
-        
-        
-        
-        
-        
-        
-        /*
+    public Operador(String direccion){
         
         try {
             Analizador_Lexico lexico = new Analizador_Lexico(
@@ -66,13 +55,11 @@ public class P1_COMPI1 {
             
         } catch (Exception e) {
         }
-
-        
-        */
-        
+    
+    
     }
     
-    public static void arbol(String id,LinkedList<Token> expre){ 
+     public static void arbol(String id,LinkedList<Token> expre){ 
         
         // • Paso 1 Agregando la concatenación al estado de aceptación 
         
@@ -830,4 +817,18 @@ public class P1_COMPI1 {
             }
 
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
