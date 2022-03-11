@@ -7,15 +7,17 @@ import analizadores.Token;
 import analizadores.conjunto;
 import analizadores.RegExp;
 import analizadores.cadena;
+import java.awt.Desktop;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-
+import javax.swing.JOptionPane;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
 
@@ -41,15 +43,28 @@ public class Operador {
                     LinkedList<Token> expre = con.expresion;
                     String id = con.get_id();    
                     arbol(id,expre);
-
                 }
+                JOptionPane.showMessageDialog(null, "No se encontraron errores en el archivo de entrada");
             
                 reporte();
             }else{
 
                 System.out.println("Se encontraron errores en el archivo de entrada");
                 reporte_errores(Analizador_Lexico.errores,Analizador_sintactico.errores );
-            }
+                String file = new String("C:/Users/usuario/Documents/Byron/7mo semestre/Compi 1/P1/-OLC1-PROYECTO_1_201906588/P1_COMPI1/errores/Reporte_errores.html"); 
+                
+                JOptionPane.showMessageDialog(null, "Se encontraron errores en el archivo de entrada");
+                try {
+
+                    File objetofile = new File (file);
+                    Desktop.getDesktop().open(objetofile);
+
+                }catch (IOException ex) {
+
+                    System.out.println(ex);
+                }
+            
+                }
 
 
             

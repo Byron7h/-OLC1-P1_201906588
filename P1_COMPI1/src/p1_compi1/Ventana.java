@@ -20,16 +20,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 
 public class Ventana extends JFrame implements ActionListener{
-    
-    //Entrada de texto                 
-    private JTextField ruta,titulo ;
+                    
     //Botones
     private JButton b_buscar, b_aceptar, b_operar;
     //Etiquetas en el frame
     private JLabel etiqueta_ruta, etiqueta_titulo;
+    
+    private JComboBox<String> combo1;
     String direccion;
     public String titulo_grafica;
     //variables y artilugios
@@ -72,10 +75,7 @@ public class Ventana extends JFrame implements ActionListener{
        //ruta= new JTextField();               
        //ruta.setBounds(20, 55, 600, 25);   
        //this.add(ruta);
-        
-       titulo= new JTextField();               
-       titulo.setBounds(20, 120, 740, 25);   
-       this.add(titulo);
+
        
        b_buscar = new JButton("Buscar"); 
        b_buscar.setBounds(20, 55, 600, 25);
@@ -89,10 +89,15 @@ public class Ventana extends JFrame implements ActionListener{
        this.add(b_operar);
        
        
-       b_aceptar = new JButton("Aceptar"); 
+       b_aceptar = new JButton("Mostrar"); 
        b_aceptar.setBounds(350, 170, 100, 25);
        b_aceptar.addActionListener(this);
        this.add(b_aceptar);
+       
+       combo1=new JComboBox<String>();
+       combo1.setBounds(20, 120, 740, 25);
+       this.add(combo1);
+       
       
        
        
@@ -101,11 +106,12 @@ public class Ventana extends JFrame implements ActionListener{
        
        //set visibles
        etiqueta_ruta.setVisible(true);
-       etiqueta_titulo.setVisible(true);
+       etiqueta_titulo.setVisible(false);
        //ruta.setVisible(true);
-       titulo.setVisible(true);
+
        b_buscar.setVisible(true);
-       b_aceptar.setVisible(true);
+       b_aceptar.setVisible(false);
+       combo1.setVisible(false);
 
        
        
@@ -142,24 +148,38 @@ public class Ventana extends JFrame implements ActionListener{
             
         }else if( ae.getSource() == b_aceptar){
                         
-            String nombre = titulo.getText();
+
+            String nombre= (String)combo1.getSelectedItem();
             String file = new String("C:/Users/usuario/Documents/Byron/7mo semestre/Compi 1/P1/-OLC1-PROYECTO_1_201906588/P1_COMPI1/reportes/Reporte_"+nombre+".html"); 
-  
-     try {
+            
+            try {
 
-            File objetofile = new File (file);
-            Desktop.getDesktop().open(objetofile);
+                File objetofile = new File (file);
+                Desktop.getDesktop().open(objetofile);
 
-     }catch (IOException ex) {
+            }catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Archivo no válido");
+                System.out.println(ex);
+            }
 
-            System.out.println(ex);
-
-     }
-
- }else if( ae.getSource() == b_operar){
+            }else if( ae.getSource() == b_operar){
      
             System.out.println("Se opero");
             Operador este = new Operador(direccion);
+            ArrayList<Automata> Automatas = new ArrayList<>();
+            Automatas = este.Automatas;
+            
+            if (Automatas.isEmpty()!= true){
+                for (Automata auto : Automatas){
+                combo1.addItem(auto.get_id());
+                }
+                etiqueta_titulo.setVisible(true);
+                combo1.setVisible(true);
+                b_aceptar.setVisible(true);
+            }
+
+            
+            
  
  
  
