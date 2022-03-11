@@ -1,8 +1,8 @@
 package analizadores;
 public class TError {
 
-    String tipo, lexema, descripcion;
-    int linea, columna;
+    public String tipo, lexema, descripcion;
+    public int linea, columna;
 
     public TError(String tipo, String lexema, String descripcion, int linea, int columna) {
         this.tipo = tipo;

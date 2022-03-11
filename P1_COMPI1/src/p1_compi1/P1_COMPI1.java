@@ -38,32 +38,34 @@ public class P1_COMPI1 {
             sintactico.parse(); //funcion que nos lee
             
             
-            System.out.println("\n\n***Reporte de errores encontrados ");
-            for (TError errore : Analizador_Lexico.errores) {
-                System.out.println(errore.show());
-            }
-            for (TError errore : sintactico.errores) {
-                System.out.println(errore.show());
-            }
             
-            
-            System.out.println("\n\n***Conjuntos encontrados ");
-            
-            Conjuntos = sintactico.conjuntos;
-            for (conjunto con : sintactico.conjuntos) {
-                
-                System.out.println(con.show());
-            }
-            
-            System.out.println("\n\n***Expresiones encontradas ");
-            for (RegExp con : sintactico.expresiones) {
-                LinkedList<Token> expre = con.expresion;
-                String id = con.get_id();    
-                arbol(id,expre);
+            if ( Analizador_Lexico.errores.isEmpty()  && Analizador_sintactico.errores.isEmpty()){ //hacemos todo el proceso
+                System.out.println("No se encontraron errores");
+                for (RegExp con : sintactico.expresiones) {
+                    LinkedList<Token> expre = con.expresion;
+                    String id = con.get_id();    
+                    arbol(id,expre);
 
-            }
+                }
             
-            reporte();
+                reporte();
+            }else{
+
+                System.out.println("Se encontraron errores en el archivo de entrada");
+                reporte_errores(Analizador_Lexico.errores,Analizador_sintactico.errores );
+            }
+
+            
+            
+            //System.out.println("\n\n***Conjuntos encontrados ");
+            
+            //Conjuntos = sintactico.conjuntos;
+            //for (conjunto con : sintactico.conjuntos) {
+                
+                //System.out.println(con.show());
+            //}
+            
+/*
             
             System.out.println("\n\n***Cadenas encontradas ");
             for (cadena con : sintactico.cadenas) {
@@ -93,65 +95,15 @@ public class P1_COMPI1 {
                         break;
                     }
                 }
-                
-            
-                
-                
-                
-                
-                
-                //System.out.println(con.show());
+
             }
             
-            
+        */ 
             
 
             
         } catch (Exception e) {
         }
-        
-        
-        
-        //.{digito}."."+{digito}
-        //. + {digito} . "." + {digito}
-        //."a"."a"+{grupo_1}
-        
-        
-       /* 
-      
-        LinkedList<Token> expresion = new LinkedList<>();
-        Token nuevo = new Token("punto",".",1,1);
-        expresion.add(nuevo);
-        
-        nuevo = new Token("cadena","'a'",1,1);
-        expresion.add(nuevo);
-        
-
-        
-        nuevo = new Token("cadena","'a'",1,1);
-        expresion.add(nuevo);
-
-        
-        */
-    
-
-        
-
-      
-        
-        /*
-        ArrayList<Integer> lista1 = new ArrayList<>(); //lista en la que se va a buscar e isertar
-        lista1.add(1);
-        lista1.add(2);
-        ArrayList<Integer> lista2 = new ArrayList<>(); //lista de la que se van a extraer los elementos
-        lista2.add(125);
-        lista2.add(2);
-        lista2.add(9);
-        lista2.add(80);
-        
-        System.out.println(unir_posiciones(lista1, lista2));
-*/
-            
 
         
     }
@@ -379,14 +331,14 @@ public class P1_COMPI1 {
         //imprimir_lista(expresion);
         }
         result += "}";
-        System.out.println(result); 
+        //System.out.println(result); 
         
         GenerarImagen("arbol_"+id, result);
         
         
-        tabla.imprimir();
+        //tabla.imprimir();
         Tabla_estados tabla_2 = new Tabla_estados(raiz, tabla);
-        tabla_2.imprimir();
+        //tabla_2.imprimir();
         
         GenerarImagen("automata_"+id, tabla_2.generar_grafo());
         Automata nuevo_automata = new Automata(id,tabla,tabla_2);
@@ -714,8 +666,7 @@ public class P1_COMPI1 {
         }
 
     }
-    
-    
+        
     public static void reporte(){
         
         for (Automata actual:Automatas){
@@ -844,5 +795,75 @@ public class P1_COMPI1 {
         }
     
     
+    }
+    
+    public static void reporte_errores(LinkedList<TError> lexico , LinkedList<TError> sintactico){
+
+            int contador = 1;
+            
+            try{
+                
+            String ruta = "C:\\Users\\usuario\\Documents\\Byron\\7mo semestre\\Compi 1\\P1\\-OLC1-PROYECTO_1_201906588\\P1_COMPI1\\errores\\Reporte_errores.html";
+            PrintWriter writer = new PrintWriter(ruta, "UTF-8");
+            
+            writer.println("<link href=\"Reporte_muestra.css\" rel=\"stylesheet\">");
+            writer.println("<body>");
+            writer.println("    <div id=\"wrapper\">");
+
+            writer.println("    <h2> Reporte de errores </h2>");
+            writer.println("    <table id=\"keywords\" cellspacing=\"0\" cellpadding=\"0\">");
+            writer.println("        <thead>");
+            writer.println("        <tr>");
+            
+            writer.println("            <th><span>#</span></th>");
+            writer.println("            <th><span>Tipo</span></th>");
+            writer.println("            <th><span>Descripcion</span></th>");
+            writer.println("            <th><span>Lexema</span></th>");
+            writer.println("            <th><span>Fila</span></th>");
+            writer.println("            <th><span>Columna</span></th>");
+
+            writer.println("        </tr>");
+            writer.println("        </thead>");
+            writer.println("        <tbody>");
+            
+            for (TError error : lexico) { 
+                writer.println("            <tr>");
+                writer.println("                <td>"+contador+"</td>");
+                writer.println("                <td>Lexico</td>");
+                writer.println("                <td>"+error.descripcion+"</td>");  
+                writer.println("                <td>"+error.lexema+"</td>");
+                writer.println("                <td>"+error.linea+"</td>");
+                writer.println("                <td>"+error.columna+"</td>"); 
+                writer.println("            </tr>");
+                contador++;
+            }
+            
+            for (TError error : sintactico) { 
+                writer.println("            <tr>");
+                writer.println("                <td>"+contador+"</td>");
+                writer.println("                <td>Sintáctico</td>");
+                writer.println("                <td>"+error.descripcion+"</td>");  
+                writer.println("                <td>"+error.lexema+"</td>");
+                writer.println("                <td>"+error.linea+"</td>");
+                writer.println("                <td>"+error.columna+"</td>"); 
+                writer.println("            </tr>");
+                contador++;
+            }
+            
+            
+            
+            
+            writer.println("        </tbody>");
+            writer.println("    </table>");
+            
+      
+            writer.println("</BODY>");
+            writer.println("</HTML>");
+            writer.close();
+            
+            }catch (Exception e) {
+            e.printStackTrace();
+            }
+
     }
 }
