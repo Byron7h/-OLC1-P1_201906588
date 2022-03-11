@@ -222,7 +222,7 @@ public class Tabla_estados {
             return auxiliar;  
     }  
         
-    public void generar_grafo(){
+    public String generar_grafo(){
                                     // Acá ya podemos colocarle código html, para los reportes
         String data = "digraph finite_state_machine {\n" +
 "           fontname=\"Helvetica,Arial,sans-serif\"\n" +
@@ -247,15 +247,7 @@ public class Tabla_estados {
 
         }
         data += "}" ; 
-        System.out.println(data);
-        
-        
-        
-    
-    
+        return data;
     }    
-        
-        
-    
-    
+
 }

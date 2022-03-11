@@ -1,0 +1,28 @@
+digraph structs {
+    fontname="Helvetica,Arial,sans-serif"
+    node [shape=record, fontname="Helvetica,Arial,sans-serif" ];
+    edge [dir = none]
+    780376 [label="{F|{[3]|<here>+|[3]}}"];
+    29092282 [label="{F|{[3]|<here>digito|[3]}}"];
+    780376 -> 29092282;
+    17061334 [label="{F|{[2]|<here>.|[3]}}"];
+    18698432 [label="{F|{[2]|<here>'.'|[2]}}"];
+    17061334 -> 18698432;
+    17061334 -> 780376;
+    subgraph cluster_17061334 {
+      color = white;
+      18698432; 780376; }
+    15022995 [label="{F|{[1]|<here>+|[1]}}"];
+    3008524 [label="{F|{[1]|<here>digito|[1]}}"];
+    15022995 -> 3008524;
+    21282042 [label="{F|{[1]|<here>.|[3]}}"];
+    21282042 -> 15022995;
+    21282042 -> 17061334;
+    subgraph cluster_21282042 {
+      color = white;
+      15022995; 17061334; }
+    6583490 [label="{F|{[1]|<here>.|[4]}}"];
+    26540606 [label="{F|{[4]|<here>#|[4]}}"];
+    6583490 -> 21282042;
+    6583490 -> 26540606;
+}

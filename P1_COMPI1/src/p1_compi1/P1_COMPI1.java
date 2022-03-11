@@ -10,15 +10,20 @@ import analizadores.cadena;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.Comparator;
 
 public class P1_COMPI1 {
     
     static ArrayList<Automata> Automatas = new ArrayList<>();
     static LinkedList<conjunto> Conjuntos = new LinkedList<>();
+    
 
     public static void main(String[] args) {
         
@@ -57,6 +62,8 @@ public class P1_COMPI1 {
                 arbol(id,expre);
 
             }
+            
+            reporte();
             
             System.out.println("\n\n***Cadenas encontradas ");
             for (cadena con : sintactico.cadenas) {
@@ -198,7 +205,8 @@ public class P1_COMPI1 {
         // Aca tambien iremos creando la cadena que imprimiremos en el dto, para el grafo 
         
         String result = "digraph structs {\n";
-        result += "    node [shape=record, ];\n    edge [dir = none]\n";
+        result += "    fontname=\"Helvetica,Arial,sans-serif\"\n"+
+                  "    node [shape=record, fontname=\"Helvetica,Arial,sans-serif\" ];\n    edge [dir = none]\n";
         
         
         while (expresion.size() != 1){
@@ -372,10 +380,15 @@ public class P1_COMPI1 {
         }
         result += "}";
         System.out.println(result); 
+        
+        GenerarImagen("arbol_"+id, result);
+        
+        
         tabla.imprimir();
         Tabla_estados tabla_2 = new Tabla_estados(raiz, tabla);
         tabla_2.imprimir();
-        tabla_2.generar_grafo();
+        
+        GenerarImagen("automata_"+id, tabla_2.generar_grafo());
         Automata nuevo_automata = new Automata(id,tabla,tabla_2);
         Automatas.add(nuevo_automata);
  
@@ -660,8 +673,176 @@ public class P1_COMPI1 {
         } 
     }  
     
-    public void grafo_automata(Tabla_estados tabla){
+    public static void GenerarImagen(String nombre, String txtDTO) {
+        try {
+            // creamos un nuevo archivo txt
+            String contenido = txtDTO;
+            File file = new File("C:\\Users\\usuario\\Documents\\Byron\\7mo semestre\\Compi 1\\P1\\-OLC1-PROYECTO_1_201906588\\P1_COMPI1\\imagenes\\"+nombre + ".txt");
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            
+            // Le escribimos nuestro codigo dto
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+
+            //---------Compilar el dto
+            
+            // ruta de dot.exe, mi equipo -> archivos del programa -> graphviz -> bin ->dot
+
+            String dotPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+            String fileIn = file.getCanonicalPath(); //esto es para obtener la ruta
+            String fileOU = fileIn.replace(".txt", ".jpg"); // salida de imagen
+            String tParam = "-Tjpg";
+            String tOparam = "-o";
+
+            String[] cmd = new String[5]; // cadena de cadenas 
+            cmd[0] = dotPath;
+            cmd[1] = tParam;
+            cmd[2] = fileIn;
+            cmd[3] = tOparam;
+            cmd[4] = fileOU;
+
+            Runtime rt = Runtime.getRuntime(); //herramienta para ejecutar comandos
+            rt.exec(cmd);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     
     
-    } 
+    public static void reporte(){
+        
+        for (Automata actual:Automatas){
+            String nombre = actual.get_id();
+            Tabla_siguientes t_siguientes = actual.get_tabla_siguientes();
+            Tabla_estados t_estados = actual.get_tabla_estados();
+        
+            
+            try{
+                
+            String ruta = "C:\\Users\\usuario\\Documents\\Byron\\7mo semestre\\Compi 1\\P1\\-OLC1-PROYECTO_1_201906588\\P1_COMPI1\\reportes\\Reporte_"+nombre+".html";
+            PrintWriter writer = new PrintWriter(ruta, "UTF-8");
+            
+            
+            //empezamos a escribir nuestro html
+            writer.println("<link href=\"Reporte_muestra.css\" rel=\"stylesheet\">");
+            writer.println("<body>");
+            writer.println("    <div id=\"wrapper\">");
+            writer.println("    <h1>"+nombre+"</h1>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            
+            writer.println("    <h2>• Árbol generado</h2>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <img src=\"C:\\Users\\usuario\\Documents\\Byron\\7mo semestre\\Compi 1\\P1\\-OLC1-PROYECTO_1_201906588\\P1_COMPI1\\imagenes\\arbol_"+nombre+".jpg\">>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            
+            writer.println("    <h2>• Tabla de siguientes</h2>");
+            writer.println("    <table id=\"keywords\" cellspacing=\"0\" cellpadding=\"0\">");
+            writer.println("        <thead>");
+            writer.println("        <tr>");
+            writer.println("            <th><span>Símbolo</span></th>");
+            writer.println("            <th><span>Número</span></th>");
+            writer.println("            <th><span>Siguientes</span></th>");
+
+            writer.println("        </tr>");
+            writer.println("        </thead>");
+            writer.println("        <tbody>");
+            
+            for (nodo_tabla_siguientes ac : t_siguientes.simbolos) { 
+                writer.println("            <tr>");
+                writer.println("                <td>"+ac.get_simbolo()+"</td>");
+                writer.println("                <td>"+ac.get_id()+"</td>");
+                writer.println("                <td>"+ac.get_lista_siguientes()+"</td>");   
+                writer.println("            </tr>");
+            }
+            
+            writer.println("        </tbody>");
+            writer.println("    </table>");
+            
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            
+            writer.println("    <h2>• Tabla de estados</h2>");
+            writer.println("    <table id=\"keywords\" cellspacing=\"0\" cellpadding=\"0\">");
+            writer.println("        <thead>");
+            writer.println("        <tr>");
+            writer.println("            <th><span>Estado</span></th>");
+            writer.println("            <th><span>Transiciones</span></th>");
+            writer.println("        </tr>");
+            writer.println("        </thead>");
+            writer.println("        <tbody>");
+            
+            for (Estado act : t_estados.finales) {
+                
+                writer.println("            <tr>");
+                writer.println("                <td>S"+act.get_id()+"</td>"); 
+                writer.println("                <td>");  
+ 
+                ArrayList<transicion> transiciones = act.get_transiciones();
+                for (transicion trans : transiciones){
+                    writer.println("                    <p> Con " + trans.get_simbolo() +" se va a S"+trans.get_apuntado()+" </p>");           
+                }
+                writer.println("                </td>");  
+                writer.println("            </tr>");
+              
+                
+            }    
+
+            writer.println("        </tbody>");
+            writer.println("    </table>");
+            
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            
+            writer.println("    <h2>• Autómata</h2>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <br>");
+            writer.println("    <img src=\"C:\\Users\\usuario\\Documents\\Byron\\7mo semestre\\Compi 1\\P1\\-OLC1-PROYECTO_1_201906588\\P1_COMPI1\\imagenes\\automata_"+nombre+".jpg\">>");
+
+            writer.println("</BODY>");
+            writer.println("</HTML>");
+            writer.close();
+            
+            }catch (Exception e) {
+            e.printStackTrace();
+            }
+            
+  
+            
+            
+        
+        
+        }
+    
+    
+    }
 }
